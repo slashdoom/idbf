@@ -90,4 +90,6 @@ for domain in domains:
   for ldap_entry in ldap_entry_list:
     ldap_entry_count += 1
     ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
+
+    print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:=(CN=%s,CN=Users,DC=YOURDOMAIN,DC=NET))" % (ldap_samaccountname)),ldap3.SUBTREE))
   print (ldap_entry_count)
