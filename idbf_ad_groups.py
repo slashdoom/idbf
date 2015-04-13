@@ -49,6 +49,13 @@ except:
   exit(0)
 
 try:
+  # attempt DOMAIN config read
+  domains = dict(config.items("DOMAIN"))
+except:
+  # send warning to logger
+  logger.warning("DOMAIN settings not found in config")
+
+try:
   # attempt LDAP config read
   ldap_server   = config["LDAP"]["server"]
   ldap_port     = config["LDAP"]["port"]
@@ -62,6 +69,8 @@ except:
 s = ldap3.Server(ldap_server, port=int(ldap_port))
 c = ldap3.Connection(s, user = ldap_username, password=ldap_password, auto_bind=True)
 
-
 print (s)
 print (c)
+
+for item in domains:
+  print (item)

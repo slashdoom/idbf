@@ -36,7 +36,7 @@ def adf_user(username):
     return re_username.group(1)
   else: # 'username' format found
     logger.debug("adf_user() username %s maintained" % (username))
-    return username
+    return username.lower()
 
 # standardize domains from AD logs
 def adf_domain(domain, domain_list):
@@ -45,7 +45,7 @@ def adf_domain(domain, domain_list):
     # convert to 'domain.suffix' format
     f_domain = ([k for k, v in domain_list.items() if v == domain.lower()][0])
     logger.debug("adf_domain() %s converted to %s" % (domain, f_domain))
-    return f_domain
+    return f_domain.lower()
   else: # domain.suffix format found
     logger.debug("adf_domain() domain %s maintained" % (domain))
-    return domain
+    return domain.lower()
