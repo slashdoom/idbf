@@ -89,5 +89,5 @@ for domain in domains:
   ldap_entry_count = 0
   for ldap_entry in ldap_entry_list:
     ldap_entry_count += 1
-    print (ldap_entry['attributes']['sAMAccountName'][0].lower())
+    ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
   print (ldap_entry_count)
