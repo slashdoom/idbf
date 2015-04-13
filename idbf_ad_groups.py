@@ -80,3 +80,5 @@ for domain in domains:
   ldap_domain = (','.join(domain_dc_parts))
 
   c.search(ldap_domain,"(objectClass=person)",ldap3.SUBTREE,attributes=["cn", "givenName"])
+
+  logger.debug(len(c.response))
