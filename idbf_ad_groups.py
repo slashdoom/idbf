@@ -73,5 +73,5 @@ print (s)
 print (c)
 
 for domain in domains:
-  print (domain)
-  print (domain.split("."))
+  for part in (domain.split(".")):
+    print (part)
