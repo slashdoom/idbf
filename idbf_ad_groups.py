@@ -80,7 +80,7 @@ for domain in domains:
   ldap_domain = (','.join(domain_dc_parts))
   print (ldap_domain)
   ldap_entry_list = c.extend.standard.paged_search( search_base   = ldap_domain,
-                                                    search_filter = "(&(objectCategory=person)(objectClass=user)(!userAccountControl:1.2.840.113556.1.4.803:=2))",
+                                                    search_filter = "(&(objectCategory=person)(objectClass=user))",
                                                     search_scope  = ldap3.SUBTREE,
                                                     attributes    = ["sAMAccountName"],
                                                     paged_size    = 5,
