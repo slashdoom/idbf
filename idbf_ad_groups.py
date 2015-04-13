@@ -48,19 +48,19 @@ except:
   logger.error("DATABASE connection settings not found in config")
   exit(0)
 
-try:
+#try:
   # attempt LDAP config read
   ldap_server   = config["LDAP"]["server"]
   ldap_port     = configparser.RawConfigParser.getint("LDAP","port")
   ldap_username = config["LDAP"]["username"]
   ldap_password = config["LDAP"]["password"]
-except:
+#except:
   # send warning to logger
-  logger.error("LDAP settings not found in config")
-  exit(0)
+#  logger.error("LDAP settings not found in config")
+#  exit(0)
 
-s = ldap3.Server(ldap_server,port=ldap_port)
-c = ldap3.Connection(s, user=ldap_username, password=ldap_password, auto_bind=True)
+#s = ldap3.Server(ldap_server,port=ldap_port)
+#c = ldap3.Connection(s, user=ldap_username, password=ldap_password, auto_bind=True)
 
-print (s)
-print (c)
+#print (s)
+#print (c)
