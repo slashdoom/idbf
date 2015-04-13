@@ -59,8 +59,9 @@ except:
   logger.error("LDAP settings not found in config")
   exit(0)
 
-s = ldap3.Server(ldap_server,port=int(ldap_port)
-c = ldap3.Connection(s, user=ldap_username, password=ldap_password, auto_bind=True)
+s = ldap3.Server(ldap_server, port=int(ldap_port))
+c = ldap3.Connection(s, user = ldap_username, password=ldap_password, auto_bind=True)
+
 
 print (s)
 print (c)
