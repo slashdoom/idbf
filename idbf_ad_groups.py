@@ -73,7 +73,7 @@ print (s)
 print (c)
 
 for domain in domains:
-  ldap_domain = {}
+  ldap_domain = []
   for part in (domain.split(".")):
-    ldap_domain.update("dc=%s" % (part))
+    ldap_domain.append("dc=%s" % (part))
   print (','.join(ldap_domain))
