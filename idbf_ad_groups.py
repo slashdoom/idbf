@@ -15,7 +15,6 @@ import configparser
 import ldap3
 import logging
 import os
-import string
 
 #setup logging
 logger = logging.getLogger()
@@ -75,4 +74,4 @@ print (c)
 
 for domain in domains:
   print (domain)
-  domain_parts = string.split(domain,".")
+  print (domain.split(domain,"."))
