@@ -86,6 +86,8 @@ for domain in domains:
                                                     paged_size    = 5,
                                                     generator     = True)
 
+  ldap_entry_count = 0
   for ldap_entry in ldap_entry_list:
+    ldap_entry_count += 1
     print (ldap_entry['attributes']['sAMAccountName'][0].lower())
-  print (len(ldap_entry_list))
+  print (ldap_entry_count)
