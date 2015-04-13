@@ -79,6 +79,11 @@ for domain in domains:
     domain_dc_parts.append("dc=%s" % (part))
   ldap_domain = (','.join(domain_dc_parts))
 
-  c.search(ldap_domain,"(objectClass=person)",ldap3.SUBTREE,attributes=["cn", "givenName"])
+  entry_generator = c.extend.standard.paged_search( search_base   = "dc=gruadmin,dc=gru,dc=com",
+                                                    search_filter = "(objectClass=person)",
+                                                    search_scope  = ldap3.SUBTREE,
+                                                    attributes    = ["cn", "givenName"],
+                                                    paged_size    = 5,
+                                                    generator     = True)
 
-  logger.debug(len(c.response))
+  logger.debug(len(entry_generator))
