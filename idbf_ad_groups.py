@@ -69,11 +69,14 @@ except:
 s = ldap3.Server(ldap_server, port=int(ldap_port))
 c = ldap3.Connection(s, user = ldap_username, password=ldap_password, auto_bind=True)
 
-print (s)
-print (c)
+# debug connection status
+logger.debug(c)
 
+# convert domain to ldap format
 for domain in domains:
-  ldap_domain = []
+  domain_dc_parts = []
   for part in (domain.split(".")):
-    ldap_domain.append("dc=%s" % (part))
-  print (','.join(ldap_domain))
+    domain_dc_parts.append("dc=%s" % (part))
+  ldap_domain = (','.join(domain_dc_parts))
+
+  c.search(ldap_domain,"(objectClass=person)",ldap3.SUBTREE,attributes=["cn", "givenName"])
