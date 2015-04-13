@@ -79,7 +79,7 @@ for domain in domains:
     domain_dc_parts.append("dc=%s" % (part))
   ldap_domain = (','.join(domain_dc_parts))
   print (ldap_domain)
-  ldap_entry_list = c.extend.standard.paged_search( search_base   = "dc=gruadmin,dc=gru,dc=com",
+  ldap_entry_list = c.extend.standard.paged_search( search_base   = ldap_domain,
                                                     search_filter = "(&(objectCategory=person)(objectClass=user))",
                                                     search_scope  = ldap3.SUBTREE,
                                                     attributes    = ["sAMAccountName"],
