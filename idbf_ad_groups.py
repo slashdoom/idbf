@@ -15,6 +15,7 @@ import configparser
 import ldap3
 import logging
 import os
+import string
 
 #setup logging
 logger = logging.getLogger()
@@ -72,5 +73,6 @@ c = ldap3.Connection(s, user = ldap_username, password=ldap_password, auto_bind=
 print (s)
 print (c)
 
-for item in domains:
-  print (item)
+for domain in domains:
+  print (domain)
+  domain_parts = string.split(domain,".")
