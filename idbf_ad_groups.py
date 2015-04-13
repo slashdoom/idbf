@@ -86,4 +86,4 @@ for domain in domains:
                                                     paged_size    = 5,
                                                     generator     = True)
 
-  logger.debug(len(entry_generator))
+  logger.debug(entry_generator.count())
