@@ -87,6 +87,6 @@ for domain in domains:
                                                     generator     = True)
 
   for ldap_entry in ldap_entry_list:
-    print (ldap_entry['attributes'])
+    print (ldap_entry['sAMAccountName'])
   len(ldap_entry_list)
   print (len(ldap_entry_list))
