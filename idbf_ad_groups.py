@@ -74,4 +74,4 @@ print (c)
 
 for domain in domains:
   for part in (domain.split(".")):
-    print (part)
+    print ("dc=%s" % (part))
