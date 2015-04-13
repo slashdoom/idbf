@@ -51,11 +51,11 @@ except:
 #try:
   # attempt LDAP config read
 ldap_server   = config["LDAP"]["server"]
-ldap_port     = configparser.RawConfigParser.getint(["LDAP"]["port"])
+ldap_port     = config["LDAP"]["port"]
 ldap_username = config["LDAP"]["username"]
 ldap_password = config["LDAP"]["password"]
 print (ldap_server)
-print (ldap_port)
+print (int(ldap_port))
 #except:
   # send warning to logger
 #  logger.error("LDAP settings not found in config")
