@@ -51,7 +51,7 @@ except:
 try:
   # attempt LDAP config read
   ldap_server   = config["LDAP"]["server"]
-  ldap_port     = config["LDAP"]["port"]
+  ldap_port     = configparser.RawConfigParser.getint("LDAP","port")
   ldap_username = config["LDAP"]["username"]
   ldap_password = config["LDAP"]["password"]
 except:
