@@ -3,7 +3,7 @@
 # Identity Database Framework (iDbF)
 #
 # FILENAME:    idbf_user_to_ip_db.py
-# DESCRIPTION: database functions for iDbF
+# DESCRIPTION: user to ip table database functions for iDbF
 #              u2i_user_check
 #              u2i_user_add
 #              u2i_user_del
@@ -191,7 +191,7 @@ class pfsidb_user_to_ip_db:
         # call delete for ip in result row
         self.u2i_user_del(row["ip"])
         # log user deleted
-        self.logger.info("u2i_user_scrub() deleted %s\\%s - %s" % (row["user"], row["domain"], row["ip"]))
+        self.logger.info("u2i_user_scrub() deleted %s\\%s - %s" % (row["domain"], row["user"], row["ip"]))
       # return check results
       return True
     else: # no results found
