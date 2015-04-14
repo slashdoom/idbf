@@ -114,7 +114,8 @@ for domain in domains:
 
     # convert memberOf list to usable format
     ldap_user_memberof_list_f = []
-    if ldap_user_memberof_list is not None:
+    # check that user has groups
+    if ldap_user_memberof_list is not None: # groups found
       # reformat group from ldap format to domain\group
       for group in ldap_user_memberof_list:
         # seperate ldap group name from ldap domain
@@ -131,16 +132,17 @@ for domain in domains:
       ldap_user_memberof_list_f.append(group_domain + "\\" + re_group.group(1))
       # convert list to comma seperated string
       ldap_user_memberof = (",".join(ldap_user_memberof_list_f))
-    else:
+    else: # no groups
       ldap_user_memberof = ""
 
+    # clone/tee domain group to process
     ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
     # add primary group to list
     for ldap_group in gen_ldap_group_list:
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
-        ldap_user_memberof += "," + ldap_group["attributes"]["cn"][0]
+        ldap_user_memberof += ("," + domain + "\\" + ldap_group["attributes"]["cn"][0])
         break
 
-    #print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
+    print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
 
   print (ldap_user_count)
