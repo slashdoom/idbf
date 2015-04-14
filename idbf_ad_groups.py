@@ -91,6 +91,7 @@ for domain in domains:
     ldap_entry_count += 1
     ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
     #ldap_memberof = (ldap_entry['attributes']['memberOf'])
+    ldap_memberof = ldap_entry.get('attributes','memberOf')
 
     #print ("%s: %s" % (ldap_samaccountname, ldap_memberof))
 
