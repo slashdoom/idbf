@@ -124,6 +124,8 @@ class idbf_user_groups_db:
       else: # user and domain mismatch
         print (existing_record["user"] == user.lower())
         print (existing_record["domain"] == domain.lower())
+        print (existing_record["groups"])
+        print (groups.lower().replace("//","/"))
         print (existing_record["groups"] == groups.lower().replace("//","/"))
         # check if overwrite is specified
         if overwrite: # overwrite mismatched record
