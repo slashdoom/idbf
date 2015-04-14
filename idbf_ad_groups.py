@@ -82,7 +82,7 @@ for domain in domains:
   ldap_entry_list = c.extend.standard.paged_search( search_base   = ldap_domain,
                                                     search_filter = "(&(objectCategory=person)(objectClass=user))",
                                                     search_scope  = ldap3.SUBTREE,
-                                                    attributes    = ["sAMAccountName"]["memberOf"],
+                                                    attributes    = ["sAMAccountName","memberOf"],
                                                     paged_size    = 5,
                                                     generator     = True)
 
