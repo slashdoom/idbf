@@ -119,7 +119,7 @@ for domain in domains:
         re_group = re.search('CN=(.*?),.*?(DC=.*)',group)
         group_domain_parts = []
         for group_domain_dc in (re_group.group(2).split(",")):
-          group_domain_part = re.search("DC=(.*)")
+          group_domain_part = re.search("DC=(.*)",group_domain_dc)
           group_domain_parts.append(group_domain_parts.group(1))
         group_domain = (','.join(group_domain_parts))
 
