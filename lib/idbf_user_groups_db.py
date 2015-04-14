@@ -52,8 +52,8 @@ class idbf_user_groups_db:
   # check database for existing user/group mapping
   def ug_user_check(self, user, domain):
     # query user_groups table by user and domain
-    sql_query = ("SELECT * FROM user_groups WHERE user=%s AND domain=%s" % (user, domain))
-    self.db_cur.execute(sql_query)
+    sql_query = ("SELECT * FROM user_groups WHERE user=%s AND domain=%s")
+    self.db_cur.execute(sql_query, (user, domain))
     # include column names in results
     sql_columns = self.db_cur.description
     sql_results = [{sql_columns[index][0]:column for index, column in enumerate(value)} for value in self.db_cur.fetchall()]
