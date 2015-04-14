@@ -17,6 +17,7 @@ import ldap3
 import logging
 import os
 import re
+import time
 
 from lib.idbf_user_groups_db import *
 
@@ -124,7 +125,7 @@ for domain in domains:
         # convert ldap domain to fqdn domain
         group_domain = group_domain.replace(",dc=",".")
         # add domain\group to list
-        group_list.append("%s\\%s" % (group_domain, group_name))
+        group_list.append("%s\\\\%s" % (group_domain, group_name))
 
     # clone/tee domain group to process
     ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
@@ -133,10 +134,10 @@ for domain in domains:
       # attempt to match user primarygroupid to group primarygrouptoken
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid: # match found
         # add primary domain\group to list
-        group_list.append("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))
+        group_list.append("%s\\\\%s" % (domain, ldap_group["attributes"]["cn"][0]))
         # exit loop once match found
         break
 
     # convert domain\group list to comma separated string
     ldap_user_memberof = ",".join(group_list)
-    print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
+    ug_db.ug_user_add(time.strftime('%Y-%m-%d %H:%M:%S'),ldap_user_samaccountname,ldap_user_memberof)
