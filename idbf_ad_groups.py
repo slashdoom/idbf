@@ -116,8 +116,10 @@ for domain in domains:
     ldap_user_memberof_list_regular = []
     if ldap_user_memberof_list is not None:
       for group in ldap_user_memberof_list:
-        re_group = re.search('CN=(.*?),',group)
-        ldap_user_memberof_list_regular.append(re_group.group(1))
+        re_group = re.search('CN=(.*?),(.*)',group)
+        print re_group.group(1)
+        print re_group.group(2)
+        #ldap_user_memberof_list_regular.append(re_group.group(1))
       ldap_user_memberof = (",".join(ldap_user_memberof_list_regular))
     else:
       ldap_user_memberof = ""
@@ -129,6 +131,6 @@ for domain in domains:
         ldap_user_memberof += "," + ldap_group["attributes"]["cn"][0]
         break
 
-    print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
+    #print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
 
   print (ldap_user_count)
