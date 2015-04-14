@@ -113,7 +113,7 @@ for domain in domains:
     ldap_user_primarygroupid = (ldap_user["attributes"]["primaryGroupID"][0])
 
     # convert memberOf list to usable format
-    ldap_user_memberof_list_regular = []
+    ldap_user_memberof_list_f = []
     if ldap_user_memberof_list is not None:
       for group in ldap_user_memberof_list:
         re_group = re.search('CN=(.*?),.*?(DC=.*)',group)
@@ -121,11 +121,11 @@ for domain in domains:
         for group_domain_dc in (re_group.group(2).split(",")):
           group_domain_part = re.search("DC=(.*)",group_domain_dc)
           group_domain_parts.append(group_domain_part.group(1))
-        group_domain = (','.join(group_domain_parts))
+        group_domain = ('.'.join(group_domain_parts))
 
-        print (group_domain + "\\" + re_group.group(1))
-      #ldap_user_memberof_list_regular.append(re_group.group(1))
-      ldap_user_memberof = (",".join(ldap_user_memberof_list_regular))
+        print ()
+      ldap_user_memberof_list_f.append(group_domain + "\\" + re_group.group(1))
+      ldap_user_memberof = (",".join(ldap_user_memberof_list_f))
     else:
       ldap_user_memberof = ""
 
