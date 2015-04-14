@@ -97,7 +97,7 @@ for domain in domains:
     if ldap_memberof_list is not None:
       for group in ldap_memberof_list:
         re_group = re.search('CN=(.*?),',group)
-        ldap_memberof += re_group[1]
+        ldap_memberof += re_group.group(1)
     else:
       ldap_memberof = ""
 
