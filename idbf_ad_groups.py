@@ -76,34 +76,54 @@ logger.debug(c)
 # convert domain to ldap format
 for domain in domains:
   domain_dc_parts = []
+  # split domain by '.' and add dc= to each domain part
   for part in (domain.split(".")):
     domain_dc_parts.append("dc=%s" % (part))
+    # rejoin the domain parts with dc=part
   ldap_domain = (','.join(domain_dc_parts))
   print (ldap_domain)
-  ldap_entry_list = c.extend.standard.paged_search( search_base   = ldap_domain,
-                                                    search_filter = "(&(objectCategory=person)(objectClass=user))",
+
+  # query ldap for all groups
+  ldap_group_list = c.extend.standard.paged_search( search_base   = ldap_domain,
+                                                    search_filter = "(&(objectcategory=group))",
                                                     search_scope  = ldap3.SUBTREE,
-                                                    attributes    = ["sAMAccountName","memberOf"],
+                                                    attributes    = ["primaryGroupToken","cn"],
                                                     paged_size    = 5,
                                                     generator     = True)
+  # query ldap for all users
+  ldap_user_list = c.extend.standard.paged_search( search_base   = ldap_domain,
+                                                   search_filter = "(&(objectCategory=person)(objectClass=user))",
+                                                   search_scope  = ldap3.SUBTREE,
+                                                   attributes    = ["sAMAccountName","memberOf","primaryGroupID"],
+                                                   paged_size    = 5,
+                                                   generator     = True)
 
-  ldap_entry_count = 0
-  for ldap_entry in ldap_entry_list:
-    ldap_entry_count += 1
-    ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
-    #ldap_memberof = (ldap_entry['attributes']['memberOf'])
-    ldap_memberof_list = ldap_entry.get('attributes').get('memberOf')
-    ldap_memberof_regular = []
-    if ldap_memberof_list is not None:
-      for group in ldap_memberof_list:
+  ldap_user_count = 0
+  # process each user to build group list
+  for ldap_user in ldap_user_list:
+    ldap_user_count += 1
+    # extract sAMAccountName from ldap query
+    ldap_user_samaccountname = (ldap_user["attributes"]["sAMAccountName"][0].lower())
+    # extract memberOf list from ldap query
+    ldap_user_memberof_list = ldap_user.get("attributes").get("memberOf")
+    # extract primaryGroupID from ldap query
+    ldap_user_primarygroupid = (ldap_user["attributes"]["primaryGroupID"][0])
+
+    # convert memberOf list to usable format
+    ldap_user_memberof_list_regular = []
+    if ldap_user_memberof_list is not None:
+      for group in ldap_user_memberof_list:
         re_group = re.search('CN=(.*?),',group)
-        ldap_memberof_regular.append(re_group.group(1))
-      ldap_memberof = (','.join(ldap_memberof_regular))
+        ldap_user_memberof_list_regular.append(re_group.group(1))
+      ldap_user_memberof = (','.join(ldap_user_memberof_list_regular))
     else:
-      ldap_memberof = ""
+      ldap_user_memberof = ""
 
-    print ("%s: %s" % (ldap_samaccountname, ldap_memberof))
+    # add primary group to list
+
+
+    #print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
 
     #print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
 
-  print (ldap_entry_count)
+  print (ldap_user_count)
