@@ -120,7 +120,7 @@ for domain in domains:
         group_domain_parts = []
         for group_domain_dc in (re_group.group(2).split(",")):
           group_domain_part = re.search("DC=(.*)",group_domain_dc)
-          group_domain_parts.append(group_domain_parts.group(1))
+          group_domain_parts.append(group_domain_part.group(1))
         group_domain = (','.join(group_domain_parts))
 
         print (group_domain + "\\" + re_group.group(1))
