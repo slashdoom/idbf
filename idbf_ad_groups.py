@@ -92,7 +92,7 @@ for domain in domains:
     ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
     ldap_memberof = (ldap_entry['attributes']['memberOf'])
 
-    print ("%s: %s" % (ldap_samaccountname, ldap_memberof))
+    #print ("%s: %s" % (ldap_samaccountname, ldap_memberof))
 
     #print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
 
