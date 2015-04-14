@@ -115,6 +115,7 @@ for domain in domains:
     # check that user has groups
     if ldap_user_memberof_list is not None: # groups found
       # reformat group from ldap format to domain\group
+      group_list = []
       for group in ldap_user_memberof_list:
         # separate ldap group name from ldap domain
         re_group = re.search('cn=(.*?),.*?dc=(.*)',group.lower())
@@ -123,9 +124,9 @@ for domain in domains:
         # convert ldap domain to fqdn domain
         group_domain = group_domain.replace(",dc=",".")
         # add domain\group to list
-        group_domain_f = ("%s\\%s" % (group_domain, group_name))
-        ldap_user_memberof = (",".join(group_domain_f))
-        print (ldap_user_memberof)
+        group_list.append("%s\\%s" % (group_domain, group_name))
+      ldap_user_memberof = ",".join(group_list)
+      print (ldap_user_memberof)
     else: # no groups
       ldap_user_memberof = ""
 
