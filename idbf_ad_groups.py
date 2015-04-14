@@ -125,10 +125,9 @@ for domain in domains:
         # add domain\group to list
         group_domain_f = ("%s\\%s" % (group_domain, group_name))
         ldap_user_memberof = (",".join(group_domain_f))
+        print (ldap_user_memberof)
     else: # no groups
       ldap_user_memberof = ""
-
-    print (ldap_user_memberof)
 
     #print (ldap_user_memberof)
 
