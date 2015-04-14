@@ -99,12 +99,8 @@ for domain in domains:
                                                    paged_size    = 5,
                                                    generator     = True)
 
-  #for ldap_group in ldap_group_list:
-   # print (ldap_group["attributes"]["primaryGroupToken"])
-  ldap_user_count = 0
   # process each user to build group list
   for ldap_user in ldap_user_list:
-    ldap_user_count += 1
     # extract sAMAccountName from ldap query
     ldap_user_samaccountname = (ldap_user["attributes"]["sAMAccountName"][0].lower())
     # extract memberOf list from ldap query
@@ -130,12 +126,13 @@ for domain in domains:
     ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
     # add primary group to list
     for ldap_group in gen_ldap_group_list:
-      if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
+      # attempt to match user primarygroupid to group primarygrouptoken
+      if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid: # match found
+        # add primary domain\group to list
         group_list.append("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))
+        # exit loop once match found
         break
 
     # convert domain\group list to comma separated string
     ldap_user_memberof = ",".join(group_list)
     print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
-
-  print (ldap_user_count)
