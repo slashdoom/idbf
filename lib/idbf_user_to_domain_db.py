@@ -50,9 +50,9 @@ class pfsidb_user_to_domain_db:
     self.db_cur = self.db_conn.cursor()
 
   # check database for existing username
-  def u2d_user_check(self, ip):
+  def u2d_user_check(self, user, domain):
     # query user_to_ip table by IP address
-    sql_query = ("SELECT * FROM user_to_ip WHERE ip='%s'" % ip)
+    sql_query = ("SELECT * FROM user_to_domain WHERE user='%s'" % user)
     self.db_cur.execute(sql_query)
     # include column names in results
     sql_columns = self.db_cur.description
@@ -60,11 +60,28 @@ class pfsidb_user_to_domain_db:
     # check for results returned
     if self.db_cur.rowcount > 0: # results found
       # debug log
-      self.logger.debug("u2i_user_check() found match for %s" % ip)
+      self.logger.debug("u2d_user_check() found match for %s" % ip)
       # return check results
       return sql_results[0]
     else: # no results found
       # debug log
-      self.logger.debug("u2i_user_check() found no match for %s" % ip)
+      self.logger.debug("u2d_user_check() found no match for %s" % ip)
       # return negative results
       return False
+
+  # add or update database with new user/group mapping
+  def u2d_user_add(self, datetime, user, domain, groups):
+    # check for matching user in database
+    if self.u2i_user_check(user, domain) == False: # user doesn't exist
+      # create new record
+      sql_query = ( "INSERT INTO user_to_domain (datetime, user, domain, groups) "
+                    "VALUES (%s, %s, %s, %s)" )
+      insert_data = (datetime, user.lower(), domain.lower(), groups)
+      self.db_cur.execute(sql_query, insert_data)
+      self.db_conn.commit()
+      # debug log
+      self.logger.debug("u2d_user_add() added new user to group mapping for %s" % (user.lower()))
+    else: # user already exists
+      # attempt record update
+      self.logger.debug("u2d_user_add() existing record for %s.  attempting update..." % (user.lower()))
+      self.u2i_user_update(datetime, user, domain, groups, True)
