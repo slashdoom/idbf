@@ -78,9 +78,9 @@ logger.debug(c)
 for domain in domains:
   domain_dc_parts = []
   # split domain by '.' and add dc= to each domain part
-  for part in (domain.split(".")):
-    domain_dc_parts.append("dc=%s" % (part))
-    # rejoin the domain parts with dc=part
+  for domain_part in (domain.split(".")):
+    domain_dc_parts.append("dc=%s" % (domain_part))
+  # rejoin the domain parts with dc=part
   ldap_domain = (','.join(domain_dc_parts))
   print (ldap_domain)
 
@@ -117,9 +117,14 @@ for domain in domains:
     if ldap_user_memberof_list is not None:
       for group in ldap_user_memberof_list:
         re_group = re.search('CN=(.*?),.*?(DC=.*)',group)
-        print (re_group.group(1))
-        print (re_group.group(2))
-        #ldap_user_memberof_list_regular.append(re_group.group(1))
+        group_domain_parts = []
+        for group_domain_dc in (re_group.group(2).split(",")):
+          group_domain_part = re.search("DC=(.*)")
+          group_domain_parts.append(group_domain_parts.group(1))
+        group_domain = (','.join(group_domain_parts))
+
+        print (group_domain + "\\" + re_group.group(1))
+      #ldap_user_memberof_list_regular.append(re_group.group(1))
       ldap_user_memberof = (",".join(ldap_user_memberof_list_regular))
     else:
       ldap_user_memberof = ""
