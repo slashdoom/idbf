@@ -125,21 +125,19 @@ for domain in domains:
         group_domain = group_domain.replace(",dc=",".")
         # add domain\group to list
         group_list.append("%s\\%s" % (group_domain, group_name))
+      # convert domain\group list to comma separated string
       ldap_user_memberof = ",".join(group_list)
-      print (ldap_user_memberof)
     else: # no groups
       ldap_user_memberof = ""
 
-    #print (ldap_user_memberof)
-
     # clone/tee domain group to process
-    #ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
+    ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
     # add primary group to list
-    #for ldap_group in gen_ldap_group_list:
-    #  if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
-    #    ldap_user_memberof = (",".join(("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))))
-    #    break
-    #
-    #print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
+    for ldap_group in gen_ldap_group_list:
+      if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
+        ldap_user_memberof = (",".join(("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))))
+        break
+
+    print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
 
   print (ldap_user_count)
