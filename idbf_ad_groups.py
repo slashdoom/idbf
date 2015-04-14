@@ -139,7 +139,7 @@ for domain in domains:
         break
 
     # convert domain\group list to comma separated string
-    ldap_user_memberof = ",".join(group_list)
+    ldap_user_memberof = ",".join(group_list.sorted())
 
     # add user and groups to database
     ug_db.ug_user_add(time.strftime('%Y-%m-%d %H:%M:%S'), ldap_user_samaccountname, domain, ldap_user_memberof)
