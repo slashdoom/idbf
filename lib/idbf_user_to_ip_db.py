@@ -16,9 +16,7 @@
 ###########################################################################
 
 import logging
-import socket
 import mysql.connector
-from mysql.connector import errorcode
 
 class pfsidb_user_to_ip_db:
 
@@ -34,13 +32,6 @@ class pfsidb_user_to_ip_db:
     fh_format = logging.Formatter("%(asctime)s - %(name)s - %(levelname)-8s - %(message)s")
     fh.setFormatter(fh_format)
     self.logger.addHandler(fh)
-    # setup syslog logging handler
-    # hostname = socket.gethostname()
-    # sh = logging.SysLogHandler(address=('localhost', 20514))
-    # sh.setLevel(logging.INFO)
-    # sh_format = logging.Formatter("%(asctime)s %(hostname)s %(self.app_name)s %(message)s", datefmt="%Y-%m-%dT%H:%M:%S")
-    # sh.setFormatter(sh_format)
-    # self.logger.addHandler(sh)
 
     # connect to mysql server
     try:
