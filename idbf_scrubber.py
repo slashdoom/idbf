@@ -52,9 +52,9 @@ u2i_db = idbf_user_to_ip_db(db_host,db_user,db_pass,db_name)
 
 try:
   # attempt SCRUBBER config read
-  scrub_day    = config["SCRUBBER"]["DAY"]
-  scrub_hour   = config["SCRUBBER"]["HOUR"]
-  scrub_minute = config["SCRUBBER"]["MINUTE"]
+  scrub_day    = config["SCRUBBER"]["u2i_DAY"]
+  scrub_hour   = config["SCRUBBER"]["u2i_HOUR"]
+  scrub_minute = config["SCRUBBER"]["u2i_MINUTE"]
 except:
   # send warning to logger
   logger.error("SCRUBBER settings not found in config")
