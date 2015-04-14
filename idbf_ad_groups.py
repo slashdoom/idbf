@@ -98,8 +98,8 @@ for domain in domains:
                                                    paged_size    = 5,
                                                    generator     = True)
 
-  for ldap_group in ldap_group_list:
-    print (ldap_group["attributes"]["primaryGroupToken"])
+  #for ldap_group in ldap_group_list:
+   # print (ldap_group["attributes"]["primaryGroupToken"])
   ldap_user_count = 0
   # process each user to build group list
   for ldap_user in ldap_user_list:
@@ -127,5 +127,5 @@ for domain in domains:
 
     #print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
 
-  print (ldap_group_list)
+  print (ldap_group_list["attributes"]["primaryGroupToken"][0])
   print (ldap_user_count)
