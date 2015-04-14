@@ -124,9 +124,8 @@ for domain in domains:
         group_domain = re_group.group(2)
         # convert ldap domain to fqdn domain
         group_domain = group_domain.replace(",dc=",".")
-        print (("%s\\%s" % (group_domain, group_name)))
-      # add domain\group to list
-      ldap_user_memberof = (",".join(("%s\\%s" % (group_domain, group_name))))
+        # add domain\group to list
+        ldap_user_memberof = (",".join(("%s\\%s" % (group_domain, group_name))))
     else: # no groups
       ldap_user_memberof = ""
 
