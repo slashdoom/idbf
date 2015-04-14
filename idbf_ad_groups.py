@@ -116,7 +116,7 @@ for domain in domains:
     ldap_user_memberof_list_regular = []
     if ldap_user_memberof_list is not None:
       for group in ldap_user_memberof_list:
-        re_group = re.search('CN=(.*?),(.*)',group)
+        re_group = re.search('CN=(.*?),.*?(DC=.*)',group)
         print (re_group.group(1))
         print (re_group.group(2))
         #ldap_user_memberof_list_regular.append(re_group.group(1))
