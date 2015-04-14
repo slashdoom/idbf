@@ -126,5 +126,5 @@ for domain in domains:
 
     #print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
 
-  print (ldap_group_list)
+  print (ldap_group_list["attributes"]["primaryGroupToken"])
   print (ldap_user_count)
