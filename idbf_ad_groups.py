@@ -99,7 +99,7 @@ for domain in domains:
                                                    generator     = True)
 
   for ldap_group in ldap_group_list:
-    print (ldap_group["attributes"])
+    print (ldap_group["attributes"]["primaryGroupToken"])
   ldap_user_count = 0
   # process each user to build group list
   for ldap_user in ldap_user_list:
