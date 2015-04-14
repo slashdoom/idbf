@@ -125,7 +125,7 @@ for domain in domains:
         # convert ldap domain to fqdn domain
         group_domain = group_domain.replace(",dc=",".")
         # add domain\group to list
-        group_list.append("%s\\\\%s" % (group_domain, group_name))
+        group_list.append("%s\\%s" % (group_domain, group_name))
 
     # clone/tee domain group to process
     ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
@@ -134,7 +134,7 @@ for domain in domains:
       # attempt to match user primarygroupid to group primarygrouptoken
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid: # match found
         # add primary domain\group to list
-        group_list.append("%s\\\\%s" % (domain, ldap_group["attributes"]["cn"][0]))
+        group_list.append("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))
         # exit loop once match found
         break
 
