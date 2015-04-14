@@ -127,7 +127,7 @@ class idbf_user_groups_db:
           # delete old ip record
           self.ug_user_del(user, domain)
           # add new record
-          sql_query = ( "INSERT INTO user_group (datetime, user, domain, groups) "
+          sql_query = ( "INSERT INTO user_groups (datetime, user, domain, groups) "
                         "VALUES (%s, %s, %s, %s)" )
           insert_data = (datetime, user.lower(), domain.lower(), groups)
           self.db_cur.execute(sql_query, insert_data)
