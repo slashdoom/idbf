@@ -126,7 +126,7 @@ for domain in domains:
     # add primary group to list
     for ldap_group in gen_ldap_group_list:
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
-        print (ldap_group["attributes"]["cn"][0])
+        ldap_user_memberof +=ldap_group["attributes"]["cn"][0]
         break
 
     #print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
