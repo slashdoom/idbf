@@ -118,8 +118,8 @@ for domain in domains:
     if ldap_user_memberof_list is not None: # groups found
       # reformat group from ldap format to domain\group
       for group in ldap_user_memberof_list:
-        # seperate ldap group name from ldap domain
-        re_group = re.search('CN=(.*?),DC=(.*)',group)
+        # separate ldap group name from ldap domain
+        re_group = re.search('CN=(.*?),.*DC=(.*)',group)
         group_name = re_group.group(1)
         group_domain = re_group.group(2)
         # convert ldap domain to fqdn domain
