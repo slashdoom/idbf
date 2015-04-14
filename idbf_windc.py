@@ -12,7 +12,6 @@
 ###########################################################################
 
 from lib.idbf_user_to_ip_db import *
-from lib.idbf_user_to_domain_db import *
 from lib.idbf_ad_format import *
 import configparser
 import logging

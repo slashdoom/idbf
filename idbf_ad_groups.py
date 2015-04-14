@@ -18,6 +18,8 @@ import logging
 import os
 import re
 
+from lib.idbf_user_groups_db import *
+
 #setup logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
