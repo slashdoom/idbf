@@ -12,6 +12,7 @@
 ###########################################################################
 
 import configparser
+import itertools
 import ldap3
 import logging
 import os
@@ -121,7 +122,7 @@ for domain in domains:
     else:
       ldap_user_memberof = ""
 
-    gen_ldap_group_list = ldap_group_list
+    gen_ldap_group_list = itertools.tee(ldap_group_list)
     # add primary group to list
     for ldap_group in gen_ldap_group_list:
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
