@@ -122,6 +122,9 @@ class idbf_user_groups_db:
         self.logger.debug("ug_user_update() record updated for %s@%s" % (user.lower(), domain.lower()))
         return True
       else: # user and domain mismatch
+        print (existing_record["user"] == user.lower())
+        print (existing_record["domain"] == domain.lower())
+        print (existing_record["groups"] == groups.lower().replace("//","/"))
         # check if overwrite is specified
         if overwrite: # overwrite mismatched record
           # delete old ip record
