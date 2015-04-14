@@ -50,7 +50,7 @@ except:
   logger.error("DATABASE connection settings not found in config")
   exit(0)
 
-u2i_db = pfsidb_user_to_ip_db(db_host,db_user,db_pass,db_name)
+u2i_db = idbf_user_groups_db(db_host,db_user,db_pass,db_name)
 
 try:
   # attempt DOMAIN config read

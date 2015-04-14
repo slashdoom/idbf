@@ -18,7 +18,7 @@
 import logging
 import mysql.connector
 
-class pfsidb_user_groups_db:
+class idbf_user_groups_db:
 
   # class init
   def __init__(self, db_host, db_user, db_pass, db_name):
