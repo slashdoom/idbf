@@ -15,6 +15,7 @@ import configparser
 import ldap3
 import logging
 import os
+import re
 
 #setup logging
 logger = logging.getLogger()
@@ -91,7 +92,13 @@ for domain in domains:
     ldap_entry_count += 1
     ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
     #ldap_memberof = (ldap_entry['attributes']['memberOf'])
-    ldap_memberof = ldap_entry.get('attributes').get('memberOf')
+    ldap_memberof_list = ldap_entry.get('attributes').get('memberOf')
+    if ldap_memberof_list is not None:
+      for group in ldap_memberof_list:
+        re_group = re.search('CN=(.*?),',group)
+        ldap_memberof += re_group[1]
+    else:
+      ldap_memberof = ""
 
     print ("%s: %s" % (ldap_samaccountname, ldap_memberof))
 
