@@ -115,16 +115,15 @@ for domain in domains:
       for group in ldap_user_memberof_list:
         re_group = re.search('CN=(.*?),',group)
         ldap_user_memberof_list_regular.append(re_group.group(1))
-      ldap_user_memberof = (','.join(ldap_user_memberof_list_regular))
+      ldap_user_memberof = (",".join(ldap_user_memberof_list_regular))
     else:
       ldap_user_memberof = ""
 
     # add primary group to list
 
-
     #print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
 
     #print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
 
-  print (ldap_group_list[0])
+  print (ldap_group_list["attributes"])
   print (ldap_user_count)
