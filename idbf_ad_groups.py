@@ -123,13 +123,14 @@ for domain in domains:
         group_name = re_group.group(1)
         group_domain = re_group.group(2)
         # convert ldap domain to fqdn domain
-        group_domain = group_domain.lower().replace(",dc=",".")
+        group_domain = group_domain.replace(",dc=",".")
+        print (group_domain)
       # add domain\group to list
       ldap_user_memberof = (",".join(("%s\\%s" % (group_domain, group_name))))
     else: # no groups
       ldap_user_memberof = ""
 
-    print (ldap_user_memberof)
+    #print (ldap_user_memberof)
 
     # clone/tee domain group to process
     #ldap_group_list, gen_ldap_group_list = itertools.tee(ldap_group_list)
