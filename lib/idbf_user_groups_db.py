@@ -134,7 +134,7 @@ class idbf_user_groups_db:
           # add new record
           sql_query = ( "INSERT INTO user_groups (datetime, user, domain, groups) "
                         "VALUES (%s, %s, %s, %s)" )
-          insert_data = (datetime, user.lower(), domain.lower(), groups)
+          insert_data = (datetime, user.lower(), domain.lower(), groups.lower(),)
           self.db_cur.execute(sql_query, insert_data)
           self.db_conn.commit()
           self.logger.debug("ug_user_update() replaced user/group mapping for %s@%s" % (user.lower(), domain.lower()))

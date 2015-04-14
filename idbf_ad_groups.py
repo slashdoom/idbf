@@ -134,7 +134,7 @@ for domain in domains:
       # attempt to match user primarygroupid to group primarygrouptoken
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid: # match found
         # add primary domain\group to list
-        group_list.append("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]).lower())
+        group_list.append("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))
         # exit loop once match found
         break
 
