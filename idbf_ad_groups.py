@@ -124,11 +124,8 @@ for domain in domains:
         group_domain = re_group.group(2)
         # convert ldap domain to fqdn domain
         group_domain = group_domain.lower().replace(",dc=",".")
-        print ("%s\\%s" % (group_domain, group_name))
       # add domain\group to list
-      #ldap_user_memberof_list_f.append(group_domain + "\\" + re_group.group(1))
-      # convert list to comma seperated string
-      ldap_user_memberof = (",".join(ldap_user_memberof_list_f))
+      ldap_user_memberof = (",".join(("%s\\%s" % (group_domain, group_name))))
     else: # no groups
       ldap_user_memberof = ""
 
@@ -137,7 +134,7 @@ for domain in domains:
     # add primary group to list
     for ldap_group in gen_ldap_group_list:
       if ldap_group["attributes"]["primaryGroupToken"][0] == ldap_user_primarygroupid:
-        ldap_user_memberof += ("," + domain + "\\" + ldap_group["attributes"]["cn"][0])
+        ldap_user_memberof = (",".join(("%s\\%s" % (domain, ldap_group["attributes"]["cn"][0]))))
         break
 
     print ("%s: %s" % (ldap_user_samaccountname, ldap_user_memberof))
