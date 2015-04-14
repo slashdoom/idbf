@@ -140,4 +140,5 @@ for domain in domains:
 
     # convert domain\group list to comma separated string
     ldap_user_memberof = ",".join(group_list)
-    ug_db.ug_user_add(time.strftime('%Y-%m-%d %H:%M:%S'), ldap_user_samaccountname, domain, ldap_user_memberof)
+    print (domain)
+    #ug_db.ug_user_add(time.strftime('%Y-%m-%d %H:%M:%S'), ldap_user_samaccountname, domain, ldap_user_memberof)
