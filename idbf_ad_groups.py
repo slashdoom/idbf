@@ -98,6 +98,8 @@ for domain in domains:
                                                    paged_size    = 5,
                                                    generator     = True)
 
+  for ldap_group in ldap_group_list:
+    print (ldap_group["attributes"])
   ldap_user_count = 0
   # process each user to build group list
   for ldap_user in ldap_user_list:
