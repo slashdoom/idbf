@@ -93,6 +93,7 @@ for domain in domains:
     ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
     #ldap_memberof = (ldap_entry['attributes']['memberOf'])
     ldap_memberof_list = ldap_entry.get('attributes').get('memberOf')
+    ldap_memberof = ""
     if ldap_memberof_list is not None:
       for group in ldap_memberof_list:
         re_group = re.search('CN=(.*?),',group)
