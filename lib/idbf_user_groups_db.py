@@ -111,7 +111,7 @@ class idbf_user_groups_db:
       return False
     else: # user found
       # check if domain/user and groups match existing record
-      if (existing_record["user"] == user.lower()) and (existing_record["domain"] == domain.lower()) and (existing_record["groups"] == groups.lower()): # record matches
+      if (existing_record["user"] == user.lower()) and (existing_record["domain"] == domain.lower()) and (existing_record["groups"] == groups.lower().replace("//","/")): # record matches
         # update user/group timestamp only
         sql_query = ( "UPDATE user_groups "
                       "SET datetime=%s WHERE user=%s AND domain=%s" )
