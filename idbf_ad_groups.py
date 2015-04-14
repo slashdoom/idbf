@@ -129,6 +129,8 @@ for domain in domains:
     else: # no groups
       ldap_user_memberof = ""
 
+    print (ldap_user_memberof)
+
     #print (ldap_user_memberof)
 
     # clone/tee domain group to process
