@@ -112,8 +112,6 @@ for domain in domains:
     # extract primaryGroupID from ldap query
     ldap_user_primarygroupid = (ldap_user["attributes"]["primaryGroupID"][0])
 
-    # convert memberOf list to usable format
-    ldap_user_memberof_list_f = []
     # check that user has groups
     if ldap_user_memberof_list is not None: # groups found
       # reformat group from ldap format to domain\group
@@ -125,7 +123,8 @@ for domain in domains:
         # convert ldap domain to fqdn domain
         group_domain = group_domain.replace(",dc=",".")
         # add domain\group to list
-        ldap_user_memberof = (",".join(("%s\\%s" % (group_domain, group_name))))
+        group_domain_f = ("%s\\%s" % (group_domain, group_name))
+        ldap_user_memberof = (",".join(group_domain_f))
     else: # no groups
       ldap_user_memberof = ""
 
