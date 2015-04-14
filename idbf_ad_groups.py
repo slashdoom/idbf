@@ -82,7 +82,7 @@ for domain in domains:
   ldap_entry_list = c.extend.standard.paged_search( search_base   = ldap_domain,
                                                     search_filter = "(&(objectCategory=person)(objectClass=user))",
                                                     search_scope  = ldap3.SUBTREE,
-                                                    attributes    = ["sAMAccountName"],
+                                                    attributes    = ["sAMAccountName"]["memberOf"],
                                                     paged_size    = 5,
                                                     generator     = True)
 
@@ -91,6 +91,6 @@ for domain in domains:
     ldap_entry_count += 1
     ldap_samaccountname = (ldap_entry['attributes']['sAMAccountName'][0].lower())
 
-    print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
+    #print (c.search(ldap_domain,("(member:1.2.840.113556.1.4.1941:cn=%s,cn=Users,%s)" % (ldap_samaccountname, ldap_domain)),ldap3.SUBTREE,attributes=["cn"]))
 
   print (ldap_entry_count)
