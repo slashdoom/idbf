@@ -114,9 +114,9 @@ for domain in domains:
     ldap_user_primarygroupid = (ldap_user["attributes"]["primaryGroupID"][0])
 
     # check that user has groups
+    group_list = []
     if ldap_user_memberof_list is not None: # groups found
       # reformat group from ldap format to domain\group
-      group_list = []
       for group in ldap_user_memberof_list:
         # separate ldap group name from ldap domain
         re_group = re.search('cn=(.*?),.*?dc=(.*)',group.lower())
