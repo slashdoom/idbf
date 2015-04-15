@@ -52,9 +52,9 @@ ug_db = idbf_user_groups_db(db_host,db_user,db_pass,db_name)
 
 try:
   # attempt SCRUBBER config read
-  scrub_day    = config["SCRUBBER"]["u2d_DAY"]
-  scrub_hour   = config["SCRUBBER"]["u2d_HOUR"]
-  scrub_minute = config["SCRUBBER"]["u2d_MINUTE"]
+  scrub_day    = config["SCRUBBER"]["ug_DAY"]
+  scrub_hour   = config["SCRUBBER"]["ug_HOUR"]
+  scrub_minute = config["SCRUBBER"]["ug_MINUTE"]
 except:
   # send warning to logger
   logger.error("SCRUBBER settings not found in config")
