@@ -3,7 +3,7 @@
 #
 # Identity Database Framework (idbf)
 #
-# FILENAME:    idbf_scrubber.py
+# FILENAME:    idbf_u2i_scrubber.py
 # DESCRIPTION: Time based scrubber script for iDbF
 #
 # AUTHOR:      Patrick K. Ryon (slashdoom)
