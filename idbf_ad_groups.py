@@ -87,7 +87,6 @@ for domain in domains:
     domain_dc_parts.append("dc=%s" % (domain_part))
   # rejoin the domain parts with dc=part
   ldap_domain = (','.join(domain_dc_parts))
-  print (ldap_domain)
 
   # query ldap for all groups
   ldap_group_list = c.extend.standard.paged_search( search_base   = ldap_domain,
