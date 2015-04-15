@@ -142,3 +142,31 @@ class idbf_user_groups_db:
         else: # leave existing record
           self.logger.info("ug_user_update() %s@%s not updated.  user/group mismatch" % (user.lower(), domain.lower()))
           return False
+
+# scrub/delete records older than specified time
+  def ug_user_scrub(self, day, hour, minute):
+    # query user_groups table by datetime
+    sql_query = ("select * from user_groups WHERE datetime < (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
+    self.db_cur.execute(sql_query, (minute, hour, day,))
+    # check for results returned
+    if self.db_cur.rowcount > 0: # results found
+      # include column names in results
+      sql_columns = self.db_cur.description
+      sql_results = [{sql_columns[index][0]:column for index, column in enumerate(value)} for value in self.db_cur.fetchall()]
+      # scrub records
+      for row in sql_results:
+        # call delete for user in result row
+        self.ug_user_del(row["user"],row["domain"])
+        # log user deleted
+        self.logger.info("ug_user_scrub() deleted %s@%s" % (row["user"], row["domain"]))
+      # return check results
+      return True
+    else: # no results found
+      # debug log
+      self.logger.debug("ug_user_scrub() no records met scrub criteria")
+      # return negative results
+      return False
+
+  # class delete
+  def __del__(self):
+    self.db_conn.close()
