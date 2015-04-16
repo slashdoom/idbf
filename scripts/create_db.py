@@ -16,8 +16,6 @@ import logging
 import mysql.connector
 import os
 
-PYTHONUNBUFFERED = "true"
-
 #setup logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -66,3 +64,57 @@ except mysql.connector.Error as err: # mysql connection error
 # mysql connection successful, create cursor
 logger.debug("idbf_create_db MySQL connected to %s" % db_host)
 db_cur = db_conn.cursor()
+
+# create idbf database
+try:
+  # attempt to create idbf database
+  sql_query = ("CREATE DATABASE %s")
+  db_cur.execute(sql_query, (db_name))
+  logger.debug("idbf_create_db create database %s successful" % db_name)
+except:
+  # log if database creation fails
+  logger.error("idbf_create_db error creating database %s" % db_name)
+  exit(0)
+
+#create user_to_ip table
+try:
+  # attempt to create idbf user_to_ip table
+  sql_query = ("CREATE TABLE %s.user_to_ip ( "
+                             "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
+                             "datetime TIMESTAMP NOT NULL , "
+                             "user     VARCHAR(  50 ) NOT NULL , "
+                             "domain   VARCHAR( 100 ) NOT NULL , "
+                             "ip       VARCHAR(  39 ) NOT NULL, "
+                             "source   VARCHAR(  50 ) "
+                             ")")
+  db_cur.execute(sql_query, (db_name))
+except:
+  # log if user_to_ip table creation fails
+  logger.error("idbf_create_db error creating %s.user_to_ip" % db_name)
+  exit(0)
+
+#create user_groups table
+try:
+  # attempt to create idbf user_groups table
+  sql_query = ("CREATE TABLE %s.user_to_ip ( "
+                             "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
+                             "datetime TIMESTAMP NOT NULL , "
+                             "user     VARCHAR(  50 ) NOT NULL , "
+                             "domain   VARCHAR( 100 ) NOT NULL , "
+                             "ip       VARCHAR(  39 ) NOT NULL, "
+                             "source   VARCHAR(  50 ) "
+                             ")")
+  sql_query = ("CREATE TABLE %s.user_groups ( "
+               "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
+               "datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
+               "user     VARCHAR( 50 ) NOT NULL , "
+               "domain   VARCHAR( 100 ) NOT NULL , "
+               "groups   LONGTEXT "
+               ")")
+  db_cur.execute(sql_query, (db_name))
+except:
+  # log if user_groups table creation fails
+  logger.error("idbf_create_db error creating %s.user_groups" % db_name)
+  exit(0)
+
+# create view
