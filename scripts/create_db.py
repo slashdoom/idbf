@@ -50,6 +50,16 @@ except:
   logger.error("DATABASE connection settings not found in config")
   exit(0)
 
+try:
+  # attempt VIEW config read
+  view_day  = config["VIEW"]["view_DAY"]
+  view_hour = config["VIEW"]["view_HOUR"]
+  view_min  = config["VIEW"]["view_MINUTE"]
+except:
+  # send error to logger
+  logger.error("VIEW settings not found in config")
+  exit(0)
+
 # connect to mysql server
 try:
   db_conn = mysql.connector.connect(host=db_host,
@@ -76,34 +86,26 @@ except:
   logger.error("idbf_create_db error creating database %s" % db_name)
   exit(0)
 
-#create user_to_ip table
+# create user_to_ip table
 try:
   # attempt to create idbf user_to_ip table
   sql_query = ("CREATE TABLE %s.user_to_ip ( "
-                             "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
-                             "datetime TIMESTAMP NOT NULL , "
-                             "user     VARCHAR(  50 ) NOT NULL , "
-                             "domain   VARCHAR( 100 ) NOT NULL , "
-                             "ip       VARCHAR(  39 ) NOT NULL, "
-                             "source   VARCHAR(  50 ) "
-                             ")")
+               "id       BIGINT         NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
+               "datetime TIMESTAMP      NOT NULL , "
+               "user     VARCHAR(  50 ) NOT NULL , "
+               "domain   VARCHAR( 100 ) NOT NULL , "
+               "ip       VARCHAR(  39 ) NOT NULL, "
+               "source   VARCHAR(  50 ) "
+               ")")
   db_cur.execute(sql_query, (db_name))
 except:
   # log if user_to_ip table creation fails
   logger.error("idbf_create_db error creating %s.user_to_ip" % db_name)
   exit(0)
 
-#create user_groups table
+# create user_groups table
 try:
   # attempt to create idbf user_groups table
-  sql_query = ("CREATE TABLE %s.user_to_ip ( "
-                             "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
-                             "datetime TIMESTAMP NOT NULL , "
-                             "user     VARCHAR(  50 ) NOT NULL , "
-                             "domain   VARCHAR( 100 ) NOT NULL , "
-                             "ip       VARCHAR(  39 ) NOT NULL, "
-                             "source   VARCHAR(  50 ) "
-                             ")")
   sql_query = ("CREATE TABLE %s.user_groups ( "
                "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
                "datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
@@ -117,4 +119,23 @@ except:
   logger.error("idbf_create_db error creating %s.user_groups" % db_name)
   exit(0)
 
-# create view
+# create idb_view view
+try:
+  # attempt to create idbf idb_view view
+  sql_query = ("create or replace view idb_view AS "
+               " select "
+               "  `user_to_ip`.`datetime` AS `datetime`, "
+               "  `user_to_ip`.`ip`       AS `ip`, "
+               "  `user_groups`.`user`    AS `user`, "
+               "  `user_groups`.`domain`  AS `domain`, "
+               "  `user_groups`.`groups`  AS `groups`, "
+               "  `user_to_ip`.`source`   AS `source` "
+               "  from (`user_to_ip` left join `user_groups` on ("
+               "  (`user_groups`.`user` = `user_to_ip`.`user`) and "
+               "  (`user_groups`.`domain` = `user_to_ip`.`domain`) ))"
+               "  where `user_to_ip`.`datetime` < "
+               "   (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
+  db_cur.execute(sql_query, (view_min, view_hour, view_day))
+except:
+  # log if idb_view virw creation fails
+  logger.error("idbf_create_db error creating %s.idb_view" % db_name)
