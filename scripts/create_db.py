@@ -80,6 +80,8 @@ try: # check for existing database
   db_conn.database = db_name
 except mysql.connector.Error as err:
   # database doesn't exist, attempt to create
+  logger.debug(mysql.connector.errorcode.ER_BAD_DB_ERROR)
+  logger.debug(err.errno)
   if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
     try:
       sql_query = ("CREATE DATABASE %s DEFAULT CHARACTER SET 'utf8'")
