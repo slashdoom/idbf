@@ -58,7 +58,7 @@ try:
 except:
   # send error to logger
   logger.error("VIEW settings not found in config")
-  exit(0)
+  exit(1)
 
 # connect to mysql server
 try:
@@ -69,22 +69,29 @@ try:
 # check mysql connection
 except mysql.connector.Error as err: # mysql connection error
   logger.error('idbf_user_groups_db MySQL error: %s', err)
-  exit(0)
+  exit(1)
 
 # mysql connection successful, create cursor
 logger.debug("idbf_create_db MySQL connected to %s" % db_host)
 db_cur = db_conn.cursor()
 
 # create idbf database
-try:
-  # attempt to create idbf database
-  sql_query = ("CREATE DATABASE %s")
-  db_cur.execute(sql_query, (db_name))
-  logger.debug("idbf_create_db create database %s successful" % db_name)
+try: # check for existing database
+  db_conn.database = db_name
 except mysql.connector.Error as err:
-  # log if database creation fails
-  logger.error("idbf_create_db error creating database %s - %s" % (db_name, err))
-  exit(0)
+  # database doesn't exist, attempt to create
+  if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+    try:
+      sql_query = ("CREATE DATABASE %s DEFAULT CHARACTER SET 'utf8'")
+      db_conn.database = db_name
+      db_cur.execute(sql_query, (db_name))
+      logger.debug("idbf_create_db create database %s successful" % db_name)
+    except mysql.connector.Error as err:
+        logger.error("idbf_create_db failed creating database: %s" % err)
+        exit(1)
+  else:
+    logger.error("idbf_create_db failed creating database: %s" % err)
+    exit(1)
 
 # create user_to_ip table
 try:
