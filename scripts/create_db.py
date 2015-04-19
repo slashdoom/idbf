@@ -98,19 +98,19 @@ except mysql.connector.Error as err:
 # create user_to_ip table
 try:
   # attempt to create idbf user_to_ip table
-  sql_query = ("CREATE TABLE %s.user_to_ip ( "
+  sql_query = ("CREATE TABLE {}.user_to_ip ( "
                "id       BIGINT         NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
                "datetime TIMESTAMP      NOT NULL , "
                "user     VARCHAR(  50 ) NOT NULL , "
                "domain   VARCHAR( 100 ) NOT NULL , "
                "ip       VARCHAR(  39 ) NOT NULL, "
                "source   VARCHAR(  50 ) "
-               ")")
-  db_cur.execute(sql_query, (db_name))
-except:
+               ")").format(db_name)
+  db_cur.execute(sql_query)
+except mysql.connector.Error as err:
   # log if user_to_ip table creation fails
-  logger.error("idbf_create_db error creating %s.user_to_ip" % db_name)
-  exit(0)
+  logger.error("idbf_create_db error creating %s.user_to_ip: %s" % (db_name, err))
+  exit(1)
 
 # create user_groups table
 try:
