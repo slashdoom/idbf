@@ -81,9 +81,9 @@ try:
   sql_query = ("CREATE DATABASE %s")
   db_cur.execute(sql_query, (db_name))
   logger.debug("idbf_create_db create database %s successful" % db_name)
-except:
+except mysql.connector.Error as err:
   # log if database creation fails
-  logger.error("idbf_create_db error creating database %s" % db_name)
+  logger.error("idbf_create_db error creating database %s - %s" % (db_name, err))
   exit(0)
 
 # create user_to_ip table
