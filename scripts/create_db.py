@@ -85,8 +85,8 @@ except mysql.connector.Error as err:
   if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
     try:
       sql_query = ("CREATE DATABASE %s DEFAULT CHARACTER SET 'utf8'")
-      db_conn.database = db_name
       db_cur.execute(sql_query, (db_name))
+      db_conn.database = db_name
       logger.debug("idbf_create_db create database %s successful" % db_name)
     except mysql.connector.Error as err:
         logger.error("idbf_create_db failed creating database: %s" % err)
