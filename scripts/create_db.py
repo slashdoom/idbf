@@ -78,10 +78,9 @@ db_cur = db_conn.cursor()
 # create idbf database
 try: # check for existing database
   db_conn.database = db_name
+  logger.warning("idbf_create_db database %s exists" % db_name)
 except mysql.connector.Error as err:
   # database doesn't exist, attempt to create
-  logger.debug(mysql.connector.errorcode.ER_BAD_DB_ERROR)
-  logger.debug(err.errno)
   if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
     try:
       sql_query = ("CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(db_name))
@@ -115,36 +114,36 @@ except mysql.connector.Error as err:
 # create user_groups table
 try:
   # attempt to create idbf user_groups table
-  sql_query = ("CREATE TABLE %s.user_groups ( "
+  sql_query = ("CREATE TABLE {}.user_groups ( "
                "id       BIGINT NOT NULL AUTO_INCREMENT , PRIMARY KEY(id) , "
                "datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
                "user     VARCHAR( 50 ) NOT NULL , "
                "domain   VARCHAR( 100 ) NOT NULL , "
                "groups   LONGTEXT "
-               ")")
-  db_cur.execute(sql_query, (db_name))
-except:
+               ")").format(db_name)
+  db_cur.execute(sql_query)
+except mysql.connector.Error as err:
   # log if user_groups table creation fails
-  logger.error("idbf_create_db error creating %s.user_groups" % db_name)
-  exit(0)
+  logger.error("idbf_create_db error creating %s.user_groups: %s" % (db_name, err))
+  exit(1)
 
 # create idb_view view
 try:
   # attempt to create idbf idb_view view
-  sql_query = ("create or replace view idb_view AS "
-               " select "
+  sql_query = ("CREATE OR REPLACE VIEW idb_view AS "
+               " SELECT "
                "  `user_to_ip`.`datetime` AS `datetime`, "
                "  `user_to_ip`.`ip`       AS `ip`, "
                "  `user_groups`.`user`    AS `user`, "
                "  `user_groups`.`domain`  AS `domain`, "
                "  `user_groups`.`groups`  AS `groups`, "
                "  `user_to_ip`.`source`   AS `source` "
-               "  from (`user_to_ip` left join `user_groups` on ("
-               "  (`user_groups`.`user` = `user_to_ip`.`user`) and "
+               "  FROM (`user_to_ip` LEFT JOIN `user_groups` ON ("
+               "  (`user_groups`.`user` = `user_to_ip`.`user`) AND "
                "  (`user_groups`.`domain` = `user_to_ip`.`domain`) ))"
-               "  where `user_to_ip`.`datetime` < "
+               "  WHERE `user_to_ip`.`datetime` < "
                "   (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
   db_cur.execute(sql_query, (view_min, view_hour, view_day))
-except:
+except mysql.connector.Error as err:
   # log if idb_view virw creation fails
-  logger.error("idbf_create_db error creating %s.idb_view" % db_name)
+  logger.error("idbf_create_db error creating %s.idb_view: %s" % (db_name, err))
