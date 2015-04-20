@@ -150,3 +150,23 @@ try:
 except mysql.connector.Error as err:
   # log if idb_view virw creation fails
   logger.error("idbf_create_db error creating %s.idb_view: %s" % (db_name, err))
+
+# create db user and assign privileges
+# make sure user and pass are present and not root
+if db_user and db_pass and (db_user != "root"):
+  try:
+    # attempt to create user
+    sql_query = "CREATE USER %s@localhost IDENTIFIED BY %s"
+    db_cur.execute(sql_query, (db_user, db_pass,))
+    logger.debug("idbf_create_db user %s created" % db_user)
+    # attempt to assign privileges
+    sql_query = "GRANT ALL PRIVILEGES ON %s . * TO %s@'localhost';"
+    db_cur.execute(sql_query, (db_name, db_user,))
+    logger.debug("idbf_create_db db_user granted privileges" % db_user)
+    # attempt to flush privileges
+    db_conn.RefreshOptions.GRANT
+    logger.debug("idbf_create_db privileges flushed")
+  except mysql.connector.Error as err:
+    # log if user creation fails
+    logger.error("idbf_create_db error creating user %s: %s" % (db_user, err))
+
