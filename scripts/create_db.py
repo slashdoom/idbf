@@ -164,7 +164,8 @@ if db_user and db_pass and (db_user != "root"):
     db_cur.execute(sql_query, (db_user,))
     logger.debug("idbf_create_db %s granted privileges" % db_user)
     # attempt to flush privileges
-    db_conn.RefreshOption.GRANT
+    sql_query = ("FLUSH PRIVILEGES")
+    db_cur.execute(sql_query)
     logger.debug("idbf_create_db privileges flushed")
   except mysql.connector.Error as err:
     # log if user creation fails
