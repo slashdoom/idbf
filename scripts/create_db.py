@@ -106,6 +106,7 @@ try:
                "source   VARCHAR(  50 ) "
                ")").format(db_name)
   db_cur.execute(sql_query)
+  logger.debug("idbf_create_db user_to_ip table created successfully")
 except mysql.connector.Error as err:
   # log if user_to_ip table creation fails
   logger.error("idbf_create_db error creating %s.user_to_ip: %s" % (db_name, err))
@@ -122,6 +123,7 @@ try:
                "groups   LONGTEXT "
                ")").format(db_name)
   db_cur.execute(sql_query)
+  logger.debug("idbf_create_db user_groups table created successfully")
 except mysql.connector.Error as err:
   # log if user_groups table creation fails
   logger.error("idbf_create_db error creating %s.user_groups: %s" % (db_name, err))
@@ -144,6 +146,7 @@ try:
                "  WHERE `user_to_ip`.`datetime` < "
                "   (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
   db_cur.execute(sql_query, (view_min, view_hour, view_day))
+  logger.debug("idbf_create_db idb_view view created successfully")
 except mysql.connector.Error as err:
   # log if idb_view virw creation fails
   logger.error("idbf_create_db error creating %s.idb_view: %s" % (db_name, err))
