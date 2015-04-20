@@ -162,7 +162,7 @@ if db_user and db_pass and (db_user != "root"):
     # attempt to assign privileges
     sql_query = ("GRANT ALL PRIVILEGES ON {} . * TO %s@'localhost';").format(db_name)
     db_cur.execute(sql_query, (db_user,))
-    logger.debug("idbf_create_db db_user granted privileges" % db_user)
+    logger.debug("idbf_create_db %s granted privileges" % db_user)
     # attempt to flush privileges
     db_conn.RefreshOptions.GRANT
     logger.debug("idbf_create_db privileges flushed")
