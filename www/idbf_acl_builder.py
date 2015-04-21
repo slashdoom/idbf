@@ -12,6 +12,7 @@
 ###########################################################################
 
 from flask import Flask
+from flask import jsonify
 import configparser
 import logging
 import mysql.connector
@@ -75,8 +76,7 @@ def user_to_ip(user):
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s")
     db_cur.execute(sql_query, (user,))
     if db_cur.rowcount > 0: # results found
-      sql_results = db_cur.fetchall()
-      print sql_results[0]
+      print jsonify(sql_results = db_cur.fetchall())
       return "done"
     else:
       return ""
