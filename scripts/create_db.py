@@ -143,7 +143,7 @@ try:
                "  FROM (`user_to_ip` LEFT JOIN `user_groups` ON ("
                "  (`user_groups`.`user` = `user_to_ip`.`user`) AND "
                "  (`user_groups`.`domain` = `user_to_ip`.`domain`) ))"
-               "  WHERE `user_to_ip`.`datetime` < "
+               "  WHERE `user_to_ip`.`datetime` > "
                "   (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
   db_cur.execute(sql_query, (view_min, view_hour, view_day))
   logger.debug("idbf_create_db idb_view view created successfully")

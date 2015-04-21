@@ -72,13 +72,10 @@ app = Flask(__name__)
 def user_to_ip(user):
   try:
     # query idb_view view by user
-    sql_query = ("SELECT * FROM idb_view WHERE user=%s")
+    sql_query = ("SELECT ip FROM idb_view WHERE user=%s")
     db_cur.execute(sql_query, (user,))
     if db_cur.rowcount > 0: # results found
-      # include column names in results
-      sql_columns = db_cur.description
-      sql_results = [{sql_columns[index][0]:column for index, column in enumerate(value)} for value in db_cur.fetchall()]
-      return sql_results
+      return db_cur.fetchall()
     else:
       return ""
   except:
