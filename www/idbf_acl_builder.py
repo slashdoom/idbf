@@ -77,6 +77,8 @@ def user_to_ip(user):
     db_cur.execute(sql_query, (user,))
     for (ip) in db_cur:
       ip_list+=str(ip[0])
+      print(ip[0])
+      print(ip_list)
     return ip_list
   except:
     return ""
