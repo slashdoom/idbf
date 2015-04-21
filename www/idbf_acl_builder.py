@@ -76,7 +76,7 @@ def user_to_ip(user):
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s")
     db_cur.execute(sql_query, (user,))
     if db_cur.rowcount > 0: # results found
-      return jsonify(sql_results=db_cur.fetchall())
+      return jsonify(sql_results=db_cur.fetchall())[0]
     else:
       return ""
   except:
