@@ -12,6 +12,30 @@
 ###########################################################################
 
 from flask import Flask
+import configparser
+import logging
+import os
+
+#setup logging
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+# setup console logging handler
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+ch_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(message)s')
+ch.setFormatter(ch_format)
+logger.addHandler(ch)
+# setup file logging handler
+fh = logging.FileHandler("{0}.log".format(__name__))
+fh.setLevel(logging.WARNING)
+fh_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(message)s')
+fh.setFormatter(fh_format)
+logger.addHandler(fh)
+
+# open config file
+config = configparser.ConfigParser()
+# read db info
+config.read(os.path.join(os.path.dirname(__file__), "..", "etc", "idbf_conf"))
 
 # create flask application
 app = Flask(__name__)
