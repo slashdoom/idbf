@@ -80,7 +80,8 @@ def user_to_ip(user):
       print (sql_results)
       for user_ip in sql_results:
         print (user_ip[0])
-      return "done"
+        user_ip_list = user_ip_list + user_ip[0]
+      return user_ip_list
     else:
       return ""
   except:
