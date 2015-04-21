@@ -14,6 +14,7 @@
 from flask import Flask
 import configparser
 import logging
+import mysql.connector
 import os
 
 #setup logging
@@ -46,6 +47,18 @@ try:
 except:
   # send error to logger
   logger.error("DATABASE connection settings not found in config")
+  exit(0)
+
+# connect to mysql server
+try:
+  db_conn = mysql.connector.connect(host=db_host,
+                                    user=db_user,
+                                    password=db_pass,
+                                    database=db_name,
+                                    buffered=True)
+# check mysql connection
+except mysql.connector.Error as err: # mysql connection error
+  logger.error('idbf_user_groups_db MySQL error: %s', err)
   exit(0)
 
 # create flask application
