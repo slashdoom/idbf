@@ -75,7 +75,9 @@ def user_to_ip(user):
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s")
     db_cur.execute(sql_query, (user,))
     if db_cur.rowcount > 0: # results found
-      return db_cur.fetchall()
+      sql_results = db_cur.fetchall()
+      print sql_results[0]
+      return "done"
     else:
       return ""
   except:
