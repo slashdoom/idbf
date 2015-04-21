@@ -141,7 +141,7 @@ class idbf_user_groups_db:
 # scrub/delete records older than specified time
   def ug_user_scrub(self, day, hour, minute):
     # query user_groups table by datetime
-    sql_query = ("select * from user_groups WHERE datetime < (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
+    sql_query = ("SELECT * FROM user_groups WHERE datetime < (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
     self.db_cur.execute(sql_query, (minute, hour, day,))
     # check for results returned
     if self.db_cur.rowcount > 0: # results found
