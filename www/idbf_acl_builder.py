@@ -37,6 +37,17 @@ config = configparser.ConfigParser()
 # read db info
 config.read(os.path.join(os.path.dirname(__file__), "..", "etc", "idbf_conf"))
 
+try:
+  # attempt DATABASE config read
+  db_host = config["DATABASE"]["db_host"]
+  db_user = config["DATABASE"]["db_user"]
+  db_pass = config["DATABASE"]["db_pass"]
+  db_name = config["DATABASE"]["db_name"]
+except:
+  # send error to logger
+  logger.error("DATABASE connection settings not found in config")
+  exit(0)
+
 # create flask application
 app = Flask(__name__)
 
