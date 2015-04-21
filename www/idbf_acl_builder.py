@@ -76,7 +76,7 @@ def user_to_ip(user):
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s")
     db_cur.execute(sql_query, (user,))
     if db_cur.rowcount > 0: # results found
-      for user_ip in db_cur:
+      for (user_ip) in db_cur:
         user_ip_list =+ user
       return user_ip_list
     else:
