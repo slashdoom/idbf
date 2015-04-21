@@ -77,8 +77,8 @@ def user_to_ip(user):
     db_cur.execute(sql_query, (user,))
     if db_cur.rowcount > 0: # results found
       for user in db_cur.fetchall():
-        print (user)
-      return "done"
+        user_list =+ user
+      return user_list
     else:
       return ""
   except:
