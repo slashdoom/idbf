@@ -79,7 +79,8 @@ def user_to_ip(user):
       sql_results = db_cur.fetchall()
       for user_ip in sql_results:
         print (user_ip[0])
-        user_ip_list = user_ip_list + user_ip[0]
+        user_ip_list = (user_ip_list + user_ip[0])
+        print (user_ip_list)
       return user_ip_list
     else:
       return ""
