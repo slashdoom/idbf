@@ -78,7 +78,7 @@ def user_to_ip(user):
     if db_cur.rowcount > 0: # results found
       print (db_cur.fetchall())
       for (user_ip) in db_cur.fetchall():
-        user_ip_list =+ user_ip[0]
+        user_ip_list =+ user_ip
       return user_ip_list
     else:
       return ""
