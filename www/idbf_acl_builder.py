@@ -59,16 +59,16 @@ def user_to_ip():
   # get username and domain from post arguments
   user   = request.args.get("user")
   domain = request.args.get("domain")
-  # connect to mysql server
-  db_conn = mysql.connector.connect(host=db_host,
-                                    user=db_user,
-                                    password=db_pass,
-                                    database=db_name,
-                                    buffered=True)
-  # mysql connection successful, create cursor
-  logger.debug("idbf_user_groups_db MySQL connected to %s" % db_name)
-  db_cur = db_conn.cursor()
   try:
+    # connect to mysql server
+    db_conn = mysql.connector.connect(host=db_host,
+                                      user=db_user,
+                                      password=db_pass,
+                                      database=db_name,
+                                      buffered=True)
+    # mysql connection successful, create cursor
+    logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
+    db_cur = db_conn.cursor()
     # query idb_view view by domain and user
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s AND domain=%s")
     db_cur.execute(sql_query, (user,domain,))
@@ -76,7 +76,7 @@ def user_to_ip():
     # build ip list from results
     for (ip) in db_cur:
       ip_list += (ip[0]+"\n")
-    # return ip list to web page
+    # close out sql connector
     db_cur.close()
     db_conn.close()
     return ip_list
@@ -90,6 +90,15 @@ def group_to_ip():
   group  = request.args.get("group")
   domain = request.args.get("domain")
   try:
+    # connect to mysql server
+    db_conn = mysql.connector.connect(host=db_host,
+                                      user=db_user,
+                                      password=db_pass,
+                                      database=db_name,
+                                      buffered=True)
+    # mysql connection successful, create cursor
+    logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
+    db_cur = db_conn.cursor()
     # query idb_view view by domain and group
     sql_query = ("SELECT ip FROM idb_view WHERE groups LIKE '%|{}|%'").format(domain+"\\\\\\\\"+group)
     db_cur.execute(sql_query)
@@ -97,6 +106,10 @@ def group_to_ip():
     ip_list = ""
     for (ip) in db_cur:
       ip_list += (ip[0]+"\n")
+    # close out sql connector
+    db_cur.close()
+    db_conn.close()
+    # return ip list to web page
     return ip_list
   # on error return no ip addresses
   except:
