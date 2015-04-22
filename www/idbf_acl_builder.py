@@ -73,6 +73,8 @@ app = Flask(__name__)
 def user_to_ip():
   user = request.args.get("user")
   domain = request.args.get("domain")
+  print(user)
+  print(domain)
   try:
     # query idb_view view by user
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s AND domain=%s")
