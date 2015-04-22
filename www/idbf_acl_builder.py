@@ -12,7 +12,7 @@
 ###########################################################################
 
 from flask import Flask
-from flask import jsonify
+from flask import request
 import configparser
 import logging
 import mysql.connector
@@ -70,11 +70,13 @@ app = Flask(__name__)
 
 # decoration for user ip list builder
 @app.route('/user/<user>')
-def user_to_ip(user):
+def user_to_ip():
+  user = request.args.get("user")
+  domain = request.args.get("domain")
   try:
     # query idb_view view by user
-    sql_query = ("SELECT ip FROM idb_view WHERE user=%s")
-    db_cur.execute(sql_query, (user,))
+    sql_query = ("SELECT ip FROM idb_view WHERE user=%s AND domain=%s")
+    db_cur.execute(sql_query, (user,domain,))
     ip_list = ""
     for (ip) in db_cur:
       ip_list += (ip[0]+"\n")
