@@ -90,7 +90,7 @@ def user_to_ip():
 
 # decoration for user ip list builder
 @app.route('/group', methods=['GET', 'POST'])
-def group_to_ip(group):
+def group_to_ip():
   group  = request.args.get("group")
   domain = request.args.get("domain")
   try:
