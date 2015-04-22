@@ -50,21 +50,6 @@ except:
   logger.error("DATABASE connection settings not found in config")
   exit(0)
 
-# connect to mysql server
-try:
-  db_conn = mysql.connector.connect(host=db_host,
-                                    user=db_user,
-                                    password=db_pass,
-                                    database=db_name,
-                                    buffered=True)
-  # mysql connection successful, create cursor
-  logger.debug("idbf_user_groups_db MySQL connected to %s" % db_name)
-  db_cur = db_conn.cursor()
-# check mysql connection
-except mysql.connector.Error as err: # mysql connection error
-  logger.error('idbf_user_groups_db MySQL error: %s', err)
-  exit(0)
-
 # create flask application
 app = Flask(__name__)
 
@@ -74,6 +59,15 @@ def user_to_ip():
   # get username and domain from post arguments
   user   = request.args.get("user")
   domain = request.args.get("domain")
+  # connect to mysql server
+  db_conn = mysql.connector.connect(host=db_host,
+                                    user=db_user,
+                                    password=db_pass,
+                                    database=db_name,
+                                    buffered=True)
+  # mysql connection successful, create cursor
+  logger.debug("idbf_user_groups_db MySQL connected to %s" % db_name)
+  db_cur = db_conn.cursor()
   try:
     # query idb_view view by domain and user
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s AND domain=%s")
@@ -83,6 +77,8 @@ def user_to_ip():
     for (ip) in db_cur:
       ip_list += (ip[0]+"\n")
     # return ip list to web page
+    db_cur.close()
+    db_conn.close()
     return ip_list
   # on error return no ip addresses
   except:
