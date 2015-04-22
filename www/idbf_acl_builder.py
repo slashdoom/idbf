@@ -71,25 +71,40 @@ app = Flask(__name__)
 # decoration for user ip list builder
 @app.route('/user', methods=['GET', 'POST'])
 def user_to_ip():
-  user = request.args.get("user")
+  # get username and domain from post arguments
+  user   = request.args.get("user")
   domain = request.args.get("domain")
-  print(user)
-  print(domain)
   try:
-    # query idb_view view by user
+    # query idb_view view by domain and user
     sql_query = ("SELECT ip FROM idb_view WHERE user=%s AND domain=%s")
     db_cur.execute(sql_query, (user,domain,))
     ip_list = ""
+    # build ip list from results
     for (ip) in db_cur:
       ip_list += (ip[0]+"\n")
+    # return ip list to web page
     return ip_list
+  # on error return no ip addresses
   except:
     return ""
 
 # decoration for user ip list builder
-@app.route('/group/<group>')
+@app.route('/group', methods=['GET', 'POST'])
 def group_to_ip(group):
-  return "group: %s" % group
+  group  = request.args.get("group")
+  domain = request.args.get("domain")
+  try:
+    # query idb_view view by domain and group
+    sql_query = ("SELECT ip FROM idb_view WHERE groups LIKE '|{}|").format(domain+"\\\\"+group)
+    db_cur.execute(sql_query)
+    # build ip list from results
+    ip_list = ""
+    for (ip) in db_cur:
+      ip_list += (ip[0]+"\n")
+    return ip_list
+  # on error return no ip addresses
+  except:
+    return ""
 
 # catch all to return blank page for other urls
 @app.route('/', defaults={'path': ''})
