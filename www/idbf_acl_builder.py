@@ -95,7 +95,7 @@ def group_to_ip():
   domain = request.args.get("domain")
   try:
     # query idb_view view by domain and group
-    sql_query = ("SELECT ip FROM idb_view WHERE groups LIKE '%|{}|%'").format(domain+"\\\\\\"+group)
+    sql_query = ("SELECT ip FROM idb_view WHERE groups LIKE '%|{}|%'").format(domain+"\\\\\\\\"+group)
     print(sql_query)
     db_cur.execute(sql_query)
     # build ip list from results
