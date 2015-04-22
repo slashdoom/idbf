@@ -69,7 +69,7 @@ except mysql.connector.Error as err: # mysql connection error
 app = Flask(__name__)
 
 # decoration for user ip list builder
-@app.route('/user/<user>')
+@app.route('/user', methods=['GET', 'POST'])
 def user_to_ip():
   user = request.args.get("user")
   domain = request.args.get("domain")
