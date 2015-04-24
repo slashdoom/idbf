@@ -137,7 +137,7 @@ for domain in domains:
         # exit loop once match found
         break
 
-    # convert domain\group list to comma separated string
+    # convert domain\group list to pipe separated string
     ldap_user_memberof = "|".join(sorted(group_list))
     ldap_user_memberof = "|" + ldap_user_memberof + "|"
 
