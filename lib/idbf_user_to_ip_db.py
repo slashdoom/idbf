@@ -107,7 +107,7 @@ class idbf_user_to_ip_db:
     # check that record to be updated exists
     existing_record = self.u2i_user_check(ip)
     if existing_record == False: # no matching ip found
-      self.logger.error("u2i_user_update() called but no matching ip found for %s" % ip)
+      self.logger.error("u2i_user_update() called but no matching ip found for %s\\%s - %s" % (domain, user, ip))
       return False
     else: # ip found
       if domain_req:
