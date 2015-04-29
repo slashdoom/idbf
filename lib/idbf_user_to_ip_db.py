@@ -17,7 +17,7 @@
 
 import logging
 import mysql.connector
-import datetime
+from datetime import datetime
 
 class idbf_user_to_ip_db:
 
