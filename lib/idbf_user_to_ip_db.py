@@ -71,13 +71,13 @@ class idbf_user_to_ip_db:
       return False
 
   # add or update database with new ip mapping
-  def u2i_user_add(self, datetime, user, domain, ip, source):
+  def u2i_user_add(self, sdatetime, user, domain, ip, source):
     # check to matching ip address in database
     if self.u2i_user_check(ip) == False: # ip address doesn't exist
       # create new record
       sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
                     "VALUES (%s, %s, %s, %s, %s)" )
-      insert_data = (datetime, user.lower(), domain.lower(), ip, source)
+      insert_data = (sdatetime, user.lower(), domain.lower(), ip, source)
       self.db_cur.execute(sql_query, insert_data)
       self.db_conn.commit()
       # debug log
@@ -85,7 +85,7 @@ class idbf_user_to_ip_db:
     else: # ip address already exists
       # attempt record update
       self.logger.debug("u2i_user_add() existing record for for %s.  attempting update..." % (ip))
-      self.u2i_user_update(datetime, user, domain, ip, source, True, True)
+      self.u2i_user_update(sdatetime, user, domain, ip, source, True, True)
 
   # delete user to ip mapping from database
   def u2i_user_del(self, ip):
@@ -104,7 +104,7 @@ class idbf_user_to_ip_db:
       return False
 
   # update existing user to ip mapping record
-  def u2i_user_update(self, datetime, user, domain, ip, source, overwrite=False, domain_req=False):
+  def u2i_user_update(self, sdatetime, user, domain, ip, source, overwrite=False, domain_req=False):
     # check that record to be updated exists
     existing_record = self.u2i_user_check(ip)
     if existing_record == False: # no matching ip found
@@ -114,8 +114,8 @@ class idbf_user_to_ip_db:
         self.logger.info("u2i_user_update() called but no matching ip found for %s\\%s - %s" % (domain, user, ip))
       return False
     else: # ip found
-      # confirm that datetime is newer than existing record
-      if existing_record["datetime"] < datetime.strptime(datetime, '%b %d %Y %I:%M%p'): # datetime is newer than existing record
+      # confirm that sdatetime is newer than existing record
+      if existing_record["datetime"] < datetime.strptime(sdatetime, '%b %d %Y %I:%M%p'): # sdatetime is newer than existing record
         # check if domain is required to update
         if domain_req: # domain required
           # confirm that user and domain match, record to be updated
@@ -123,7 +123,7 @@ class idbf_user_to_ip_db:
             # update user_to_ip record
             sql_query = ( "UPDATE user_to_ip "
                           "SET datetime=%s, source=%s WHERE ip=%s" )
-            update_data = (datetime, source, ip)
+            update_data = (sdatetime, source, ip)
             self.db_cur.execute(sql_query, update_data)
             self.db_conn.commit()
             # create record update log
@@ -137,7 +137,7 @@ class idbf_user_to_ip_db:
               # add new record
               sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
                             "VALUES (%s, %s, %s, %s, %s)" )
-              insert_data = (datetime, user.lower(), domain.lower(), ip, source)
+              insert_data = (sdatetime, user.lower(), domain.lower(), ip, source)
               self.db_cur.execute(sql_query, insert_data)
               self.db_conn.commit()
               self.logger.debug("u2i_user_update() replaced ip mapping for %s" % (ip))
@@ -151,7 +151,7 @@ class idbf_user_to_ip_db:
             # update user_to_ip record
             sql_query = ( "UPDATE user_to_ip "
                           "SET datetime=%s, source=%s WHERE ip=%s" )
-            update_data = (datetime, source, ip)
+            update_data = (sdatetime, source, ip)
             self.db_cur.execute(sql_query, update_data)
             self.db_conn.commit()
             # create record update log
@@ -165,7 +165,7 @@ class idbf_user_to_ip_db:
               # add new record
               sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
                             "VALUES (%s, %s, %s, %s, %s)" )
-              insert_data = (datetime, user.lower(), domain.lower(), ip, source)
+              insert_data = (sdatetime, user.lower(), domain.lower(), ip, source)
               self.db_cur.execute(sql_query, insert_data)
               self.db_conn.commit()
               self.logger.debug("u2i_user_update() replaced ip mapping for %s" % (ip))
@@ -173,7 +173,7 @@ class idbf_user_to_ip_db:
             else: # leave existing record
               self.logger.info("u2i_user_update() %s not updated.  user mismatch" % (ip))
               return False
-      else: # datetime is older than existing record
+      else: # sdatetime is older than existing record
         # leave existing record
         self.logger.info("u2i_user_update() %s not updated.  existing record newer than update" % (ip))
         return False
@@ -181,7 +181,7 @@ class idbf_user_to_ip_db:
 
 # scrub/delete records older than specified time
   def u2i_user_scrub(self, day, hour, minute):
-    # query user_to_ip table by datetime
+    # query user_to_ip table by sdatetime
     sql_query = ("select * from user_to_ip WHERE datetime < (NOW() - INTERVAL %s MINUTE - INTERVAL %s HOUR - INTERVAL %s DAY)")
     self.db_cur.execute(sql_query, (minute, hour, day,))
     # check for results returned
