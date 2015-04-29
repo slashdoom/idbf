@@ -113,62 +113,69 @@ class idbf_user_to_ip_db:
         self.logger.info("u2i_user_update() called but no matching ip found for %s\\%s - %s" % (domain, user, ip))
       return False
     else: # ip found
-      if domain_req:
-        # confirm that user and domain match, record to be updated
-        if (existing_record["user"] == user.lower()) and (existing_record["domain"] == domain.lower()): # user and domain match
-          # update user_to_ip record
-          sql_query = ( "UPDATE user_to_ip "
-                        "SET datetime=%s, source=%s WHERE ip=%s" )
-          update_data = (datetime, source, ip)
-          self.db_cur.execute(sql_query, update_data)
-          self.db_conn.commit()
-          # create record update log
-          self.logger.debug("u2i_user_update() record updated for %s@%s - %s" % (user.lower(), domain.lower(), ip))
-          return True
-        else: # user and domain mismatch
-          # check if overwrite is specified
-          if overwrite: # overwrite mismatched record
-            # delete old ip record
-            self.u2i_user_del(ip)
-            # add new record
-            sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
-                          "VALUES (%s, %s, %s, %s, %s)" )
-            insert_data = (datetime, user.lower(), domain.lower(), ip, source)
-            self.db_cur.execute(sql_query, insert_data)
+      # confirm that datetime is newer than existing record
+      if existing_record["datetime"] < datetime: # datetime is newer than existing record
+        if domain_req:
+          # confirm that user and domain match, record to be updated
+          if (existing_record["user"] == user.lower()) and (existing_record["domain"] == domain.lower()): # user and domain match
+            # update user_to_ip record
+            sql_query = ( "UPDATE user_to_ip "
+                          "SET datetime=%s, source=%s WHERE ip=%s" )
+            update_data = (datetime, source, ip)
+            self.db_cur.execute(sql_query, update_data)
             self.db_conn.commit()
-            self.logger.debug("u2i_user_update() replaced ip mapping for %s" % (ip))
+            # create record update log
+            self.logger.debug("u2i_user_update() record updated for %s@%s - %s" % (user.lower(), domain.lower(), ip))
             return True
-          else: # leave existing record
-            self.logger.info("u2i_user_update() %s not updated.  domain and user mismatch" % (ip))
-            return False
-      else:
-        # confirm that user matches, record to be updated
-        if existing_record["user"] == user.lower(): # user match
-          # update user_to_ip record
-          sql_query = ( "UPDATE user_to_ip "
-                        "SET datetime=%s, source=%s WHERE ip=%s" )
-          update_data = (datetime, source, ip)
-          self.db_cur.execute(sql_query, update_data)
-          self.db_conn.commit()
-          # create record update log
-          self.logger.debug("u2i_user_update() record updated for %s - %s" % (user.lower(), ip))
-          return True
-        else: # user mismatch
-          # check if overwrite is specified
-          if overwrite: # overwrite mismatched record
-            # delete old ip record
-            self.u2i_user_del(ip)
-            # add new record
-            sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
-                          "VALUES (%s, %s, %s, %s, %s)" )
-            insert_data = (datetime, user.lower(), domain.lower(), ip, source)
-            self.db_cur.execute(sql_query, insert_data)
+          else: # user and domain mismatch
+            # check if overwrite is specified
+            if overwrite: # overwrite mismatched record
+              # delete old ip record
+              self.u2i_user_del(ip)
+              # add new record
+              sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
+                            "VALUES (%s, %s, %s, %s, %s)" )
+              insert_data = (datetime, user.lower(), domain.lower(), ip, source)
+              self.db_cur.execute(sql_query, insert_data)
+              self.db_conn.commit()
+              self.logger.debug("u2i_user_update() replaced ip mapping for %s" % (ip))
+              return True
+            else: # leave existing record
+              self.logger.info("u2i_user_update() %s not updated.  domain and user mismatch" % (ip))
+              return False
+        else:
+          # confirm that user matches, record to be updated
+          if existing_record["user"] == user.lower(): # user match
+            # update user_to_ip record
+            sql_query = ( "UPDATE user_to_ip "
+                          "SET datetime=%s, source=%s WHERE ip=%s" )
+            update_data = (datetime, source, ip)
+            self.db_cur.execute(sql_query, update_data)
             self.db_conn.commit()
-            self.logger.debug("u2i_user_update() replaced ip mapping for %s" % (ip))
+            # create record update log
+            self.logger.debug("u2i_user_update() record updated for %s - %s" % (user.lower(), ip))
             return True
-          else: # leave existing record
-            self.logger.info("u2i_user_update() %s not updated.  user mismatch" % (ip))
-            return False
+          else: # user mismatch
+            # check if overwrite is specified
+            if overwrite: # overwrite mismatched record
+              # delete old ip record
+              self.u2i_user_del(ip)
+              # add new record
+              sql_query = ( "INSERT INTO user_to_ip (datetime, user, domain, ip, source) "
+                            "VALUES (%s, %s, %s, %s, %s)" )
+              insert_data = (datetime, user.lower(), domain.lower(), ip, source)
+              self.db_cur.execute(sql_query, insert_data)
+              self.db_conn.commit()
+              self.logger.debug("u2i_user_update() replaced ip mapping for %s" % (ip))
+              return True
+            else: # leave existing record
+              self.logger.info("u2i_user_update() %s not updated.  user mismatch" % (ip))
+              return False
+      else: # datetime is older than existing record
+        # leave existing record
+        self.logger.info("u2i_user_update() %s not updated.  existing record newer than update" % (ip))
+        return False
+
 
 # scrub/delete records older than specified time
   def u2i_user_scrub(self, day, hour, minute):
