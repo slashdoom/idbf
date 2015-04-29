@@ -17,6 +17,7 @@
 
 import logging
 import mysql.connector
+import time
 
 class idbf_user_to_ip_db:
 
@@ -114,7 +115,7 @@ class idbf_user_to_ip_db:
       return False
     else: # ip found
       # confirm that datetime is newer than existing record
-      if existing_record["datetime"] < datetime: # datetime is newer than existing record
+      if existing_record["datetime"] < time.strftime(datetime): # datetime is newer than existing record
         # check if domain is required to update
         if domain_req: # domain required
           # confirm that user and domain match, record to be updated
