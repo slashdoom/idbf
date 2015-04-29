@@ -115,7 +115,7 @@ class idbf_user_to_ip_db:
       return False
     else: # ip found
       # confirm that sdatetime is newer than existing record
-      if existing_record["datetime"] < datetime.strptime(sdatetime, '%b %d %Y %I:%M%p'): # sdatetime is newer than existing record
+      if existing_record["datetime"] < datetime.strptime(sdatetime, '%Y-%m-%d %H:%M:%S'): # sdatetime is newer than existing record
         # check if domain is required to update
         if domain_req: # domain required
           # confirm that user and domain match, record to be updated
