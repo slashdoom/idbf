@@ -115,7 +115,8 @@ class idbf_user_to_ip_db:
     else: # ip found
       # confirm that datetime is newer than existing record
       if existing_record["datetime"] < datetime: # datetime is newer than existing record
-        if domain_req:
+        # check if domain is required to update
+        if domain_req: # domain required
           # confirm that user and domain match, record to be updated
           if (existing_record["user"] == user.lower()) and (existing_record["domain"] == domain.lower()): # user and domain match
             # update user_to_ip record
@@ -143,7 +144,7 @@ class idbf_user_to_ip_db:
             else: # leave existing record
               self.logger.info("u2i_user_update() %s not updated.  domain and user mismatch" % (ip))
               return False
-        else:
+        else: # domain not required
           # confirm that user matches, record to be updated
           if existing_record["user"] == user.lower(): # user match
             # update user_to_ip record
