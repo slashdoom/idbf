@@ -24,9 +24,9 @@ config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(__file__), "..", "etc", "idbf_conf"))
 
 try:
-  log_path = config["LOGGING"]["path"]
+  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],__name__)
 except:
-  log_path = ""
+  log_path = __name__
 
 #setup logging
 logger = logging.getLogger()
