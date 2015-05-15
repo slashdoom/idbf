@@ -38,7 +38,7 @@ ch_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(mess
 ch.setFormatter(ch_format)
 logger.addHandler(ch)
 # setup file logging handler
-fh = logging.FileHandler("{0}/{1}.log".format(__name__))
+fh = logging.FileHandler("{0}.log".format(__name__))
 fh.setLevel(logging.WARNING)
 fh_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(message)s')
 fh.setFormatter(fh_format)
