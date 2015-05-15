@@ -20,7 +20,7 @@ import os
 
 # open config file
 config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(__file__), "..", "etc", "idbf_conf"))
+config.read("/opt/idbf-dev/etc/idbf_conf"))
 
 try:
   log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],os.path.basename(__file__))
