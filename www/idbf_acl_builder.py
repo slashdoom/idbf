@@ -20,13 +20,12 @@ import os
 
 # open config file
 config = configparser.ConfigParser()
-# read db info
 config.read(os.path.join(os.path.dirname(__file__), "..", "etc", "idbf_conf"))
 
-#try:
-#  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],__name__)
-#except:
-#  log_path = __name__
+try:
+  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],__name__)
+except:
+  log_path = "{0}.log".format(__name__)
 
 #setup logging
 logger = logging.getLogger()
@@ -38,7 +37,7 @@ ch_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(mess
 ch.setFormatter(ch_format)
 logger.addHandler(ch)
 # setup file logging handler
-fh = logging.FileHandler("{0}.log".format(__name__))
+fh = logging.FileHandler(log_path)
 fh.setLevel(logging.WARNING)
 fh_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(message)s')
 fh.setFormatter(fh_format)
