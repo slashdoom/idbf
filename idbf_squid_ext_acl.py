@@ -79,7 +79,10 @@ try:
     # parse stdin for ip address
     re_ip = re.search('(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',line)
     if (re_ip): # ip address found in stdin line
-      print(re_ip.group(1))
+      # query idb_view view by ip
+      sql_query = ("SELECT ip FROM idb_view WHERE ip=%s")
+      db_cur.execute(sql_query, (re_ip.group(1),))
+      print(db_cur)
     else:
       print("ERR") # ip address not found in stdin line
 
