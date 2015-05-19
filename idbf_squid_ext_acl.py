@@ -86,17 +86,17 @@ try:
         for (record) in db_cur:
           if (record[0] and record[1]): # username and domain are present
             print("OK user=" + record[0] + "@" + record[1])
-            logger.debug("idbf_squid_ext_acl re_ip.group(1) result: OK user=%s@%s" % (record[0],record[1]))
+            logger.debug("idbf_squid_ext_acl ip: %s result: OK user=%s@%s" % (re_ip.group(1), record[0],record[1]))
           elif (record[0] and not record[1]): # only username is present
             print("OK user=" + record[0])
-            logger.debug("idbf_squid_ext_acl re_ip.group(1) result: OK user=%s" % (record[0]))
+            logger.debug("idbf_squid_ext_acl ip: %s result: OK user=%s" % (re_ip.group(1), record[0]))
           else: # no username or domain present
             print("ERR")
-            logger.debug("idbf_squid_ext_acl re_ip.group(1) result: ERR")
+            logger.debug("idbf_squid_ext_acl ip: %s result: ERR" % (re_ip.group(1)))
       else: # no results or too many results found
         print("ERR")
-      db_cur.close
-      db_conn.close
+      db_cur.close()
+      db_conn.close()
       logger.debug("idbf_squid_ext_acl MySQL connection closed")
     else: # ip address not found in stdin line
       print("ERR")
