@@ -82,18 +82,19 @@ try:
       # query idb_view view by ip
       sql_query = ("SELECT user, domain FROM idb_view WHERE ip=%s")
       db_cur.execute(sql_query, (re_ip.group(1),))
-      if db_cur.rowcount > 0:
+      # check that results were found in database
+      if db_cur.rowcount == 1: # result found
         for (record) in db_cur:
-          if (record[0] and record[1]):
+          if (record[0] and record[1]): # username and domain are present
             print("OK user=" + record[0] + "@" + record[1])
-          elif (record[0] and not record[1]):
+          elif (record[0] and not record[1]): # only username is present
             print("OK user=" + record[0])
-          else:
+          else: # no username or domain present
             print("ERR")
-      else:
+      else: # no results or too many results found
         print("ERR")
-    else:
-      print("ERR") # ip address not found in stdin line
+    else: # ip address not found in stdin line
+      print("ERR")
 
 except Exception as err:
   # send error to logger
