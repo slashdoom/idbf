@@ -95,6 +95,7 @@ try:
             logger.debug("idbf_squid_ext_acl ip: %s result: ERR" % (re_ip.group(1)))
       else: # no results or too many results found
         print("ERR")
+        logger.debug("idbf_squid_ext_acl ip: no user found for %s result: ERR" % (re_ip.group(1)))
       db_cur.close()
       db_conn.close()
       logger.debug("idbf_squid_ext_acl MySQL connection closed")
