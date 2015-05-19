@@ -80,9 +80,10 @@ try:
     re_ip = re.search('(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',line)
     if (re_ip): # ip address found in stdin line
       # query idb_view view by ip
-      sql_query = ("SELECT ip FROM idb_view WHERE ip=%s")
+      sql_query = ("SELECT user, domain FROM idb_view WHERE ip=%s")
       db_cur.execute(sql_query, (re_ip.group(1),))
-      print(db_cur)
+      for (record) in db_cur:
+        print(record)
     else:
       print("ERR") # ip address not found in stdin line
 
