@@ -85,7 +85,8 @@ try:
       if db_cur.rowcount == 1: # result found
         for (record) in db_cur:
           if (record[0] and record[1]): # username and domain are present
-            print("OK user=" + record[0] + "@" + record[1])
+            sys.stdout.write("OK user=" + record[0] + "@" + record[1] + "\n")
+            #print("OK user=" + record[0] + "@" + record[1])
             logger.debug("idbf_squid_ext_acl ip: %s result: OK user=%s@%s" % (re_ip.group(1), record[0],record[1]))
           elif (record[0] and not record[1]): # only username is present
             print("OK user=" + record[0])
