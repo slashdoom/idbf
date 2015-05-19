@@ -66,9 +66,9 @@ try:
                                     database=db_name,
                                     buffered=True)
   # check mysql connection
-  except mysql.connector.Error as err: # mysql connection error
-    logger.error('idbf_user_groups_db MySQL error: %s', err)
-    exit(0)
+except mysql.connector.Error as err: # mysql connection error
+  logger.error('idbf_user_groups_db MySQL error: %s', err)
+  exit(0)
 
   # mysql connection successful, create cursor
   logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
