@@ -59,11 +59,29 @@ except:
   exit(0)
 
 try:
+  # connect to mysql server
+  db_conn = mysql.connector.connect(host=db_host,
+                                    user=db_user,
+                                    password=db_pass,
+                                    database=db_name,
+                                    buffered=True)
+  # check mysql connection
+  except mysql.connector.Error as err: # mysql connection error
+    logger.error('idbf_user_groups_db MySQL error: %s', err)
+    exit(0)
+
+  # mysql connection successful, create cursor
+  logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
+  db_cur = db_conn.cursor()
+
+try:
   for line in sys.stdin:
     # parse stdin for ip address
     re_ip = re.search('(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',line)
     if (re_ip): # ip address found in stdin line
       print(re_ip.group(1))
+    else
+      print("ERR")
 
 except Exception as err:
   # send error to logger
