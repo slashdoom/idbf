@@ -59,26 +59,25 @@ except:
   exit(0)
 
 try:
-  # connect to mysql server
-  db_conn = mysql.connector.connect(host=db_host,
-                                    user=db_user,
-                                    password=db_pass,
-                                    database=db_name,
-                                    buffered=True)
-  # check mysql connection
-except mysql.connector.Error as err: # mysql connection error
-  logger.error('idbf_user_groups_db MySQL error: %s', err)
-  exit(0)
-
-# mysql connection successful, create cursor
-logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
-db_cur = db_conn.cursor()
-
-try:
   for line in sys.stdin:
     # parse stdin for ip address
     re_ip = re.search('(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',line)
     if (re_ip): # ip address found in stdin line
+      try:
+        # connect to mysql server
+        db_conn = mysql.connector.connect(host=db_host,
+                                          user=db_user,
+                                          password=db_pass,
+                                          database=db_name,
+                                          buffered=True)
+        # check mysql connection
+      except mysql.connector.Error as err: # mysql connection error
+        logger.error('idbf_user_groups_db MySQL error: %s', err)
+        exit(0)
+
+      # mysql connection successful, create cursor
+      logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
+      db_cur = db_conn.cursor()
       # query idb_view view by ip
       sql_query = ("SELECT user, domain FROM idb_view WHERE ip=%s")
       db_cur.execute(sql_query, (re_ip.group(1),))
@@ -93,6 +92,8 @@ try:
             print("ERR")
       else: # no results or too many results found
         print("ERR")
+      db_cur.close
+      db_conn.close
     else: # ip address not found in stdin line
       print("ERR")
 
