@@ -3,7 +3,7 @@
 #
 # Identity Database Framework (idbf)
 #
-# FILENAME:    idbf_create_db.py
+# FILENAME:    idbf_squid_ext_acl.py
 # DESCRIPTION: script to provide Squid with usernames through
 #              external_acl_type
 #
@@ -17,15 +17,17 @@ import logging
 import mysql.connector
 import os
 
+log_name = "idbf_squid_ext_acl"
+
 # open config file
 config = configparser.ConfigParser()
 # read db info
 config.read(os.path.join(os.path.dirname(__file__), "etc", "idbf_conf"))
 
 try:
-  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],__name__)
+  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],log_name)
 except:
-  log_path = __name__
+  log_path = log_name
 
 #setup logging
 logger = logging.getLogger()
