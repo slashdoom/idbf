@@ -83,7 +83,7 @@ try:
       sql_query = ("SELECT user, domain FROM idb_view WHERE ip=%s")
       db_cur.execute(sql_query, (re_ip.group(1),))
       for (record) in db_cur:
-        print(record[0])
+        print("OK user=" + record[0] + "@" + record[1])
         print(record[1])
     else:
       print("ERR") # ip address not found in stdin line
