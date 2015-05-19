@@ -63,7 +63,7 @@ try:
     # parse stdin for ip address
     re_ip = re.search('(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',line)
     if (re_ip): # ip address found in stdin line
-      print(re_ip[1])
+      print(re_ip.group(1))
 
 except Exception as err:
   # send error to logger
