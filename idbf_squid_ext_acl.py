@@ -85,7 +85,7 @@ try:
       if db_cur.rowcount == 1: # result found
         for (record) in db_cur:
           if (record[0] and record[1]): # username and domain are present
-            sys.stdout.write("OK user=" + record[0] + "@" + record[1] + "\n")
+            sys.stdout.write('OK user="' + record[0] + '@' + record[1] + '"\n')
             #print("OK user=" + record[0] + "@" + record[1])
             logger.debug("idbf_squid_ext_acl ip: %s result: OK user=%s@%s" % (re_ip.group(1), record[0],record[1]))
           elif (record[0] and not record[1]): # only username is present
@@ -97,6 +97,7 @@ try:
       else: # no results or too many results found
         print("ERR")
         logger.debug("idbf_squid_ext_acl ip: no user found for %s result: ERR" % (re_ip.group(1)))
+      sys.stdout.flush()
       db_cur.close()
       db_conn.close()
       logger.debug("idbf_squid_ext_acl MySQL connection closed")
