@@ -70,9 +70,9 @@ except mysql.connector.Error as err: # mysql connection error
   logger.error('idbf_user_groups_db MySQL error: %s', err)
   exit(0)
 
-  # mysql connection successful, create cursor
-  logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
-  db_cur = db_conn.cursor()
+# mysql connection successful, create cursor
+logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
+db_cur = db_conn.cursor()
 
 try:
   for line in sys.stdin:
@@ -81,7 +81,7 @@ try:
     if (re_ip): # ip address found in stdin line
       print(re_ip.group(1))
     else:
-      print("ERR")
+      print("ERR") # ip address not found in stdin line
 
 except Exception as err:
   # send error to logger
