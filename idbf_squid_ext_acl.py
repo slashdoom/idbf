@@ -55,7 +55,7 @@ try:
   db_name = config["DATABASE"]["db_name"]
 except:
   # send error to logger
-  logger.error("DATABASE connection settings not found in config")
+  logger.error("idbf_squid_ext_acl DATABASE connection settings not found in config")
   exit(0)
 
 try:
@@ -72,11 +72,11 @@ try:
                                           buffered=True)
         # check mysql connection
       except mysql.connector.Error as err: # mysql connection error
-        logger.error('idbf_user_groups_db MySQL error: %s', err)
+        logger.error('idbf_squid_ext_acl MySQL error: %s', err)
         exit(0)
 
       # mysql connection successful, create cursor
-      logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
+      logger.debug("idbf_squid_ext_acl MySQL connected to %s" % db_name)
       db_cur = db_conn.cursor()
       # query idb_view view by ip
       sql_query = ("SELECT user, domain FROM idb_view WHERE ip=%s")
@@ -94,6 +94,7 @@ try:
         print("ERR")
       db_cur.close
       db_conn.close
+      logger.debug("idbf_squid_ext_acl MySQL connection closed")
     else: # ip address not found in stdin line
       print("ERR")
 
