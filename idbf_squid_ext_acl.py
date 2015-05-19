@@ -16,8 +16,10 @@ import configparser
 import logging
 import mysql.connector
 import os
+import re
+import sys
 
-log_name = "idbf_squid_ext_acl"
+PYTHONUNBUFFERED = "true"
 
 # open config file
 config = configparser.ConfigParser()
@@ -25,9 +27,9 @@ config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(__file__), "etc", "idbf_conf"))
 
 try:
-  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],log_name)
+  log_path = "{0}/{1}.log".format(config["LOGGING"]["path"],os.path.basename(__file__))
 except:
-  log_path = log_name
+  log_path = "{0}.log".format(os.path.basename(__file__))
 
 #setup logging
 logger = logging.getLogger()
@@ -56,4 +58,13 @@ except:
   logger.error("DATABASE connection settings not found in config")
   exit(0)
 
-print(__name__)
+try:
+  for line in sys.stdin:
+    re_ip = re.search('(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',line)
+      if (re_ip): # ip address found in stdin line
+        print(re_ip)
+
+except Exception as err:
+  # send error to logger
+  logger.error(err)
+  exit(0)
