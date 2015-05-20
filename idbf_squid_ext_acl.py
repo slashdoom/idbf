@@ -79,7 +79,7 @@ try:
       logger.debug("idbf_squid_ext_acl MySQL connected to %s" % db_name)
       db_cur = db_conn.cursor()
       # query idb_view view by ip
-      sql_query = ("SELECT user, domain FROM idb_view WHERE ip=%s")
+      sql_query = ("SELECT v_user, v_domain FROM idb_view WHERE v_ip=%s")
       db_cur.execute(sql_query, (re_ip.group(1),))
       # check that results were found in database
       if db_cur.rowcount == 1: # result found

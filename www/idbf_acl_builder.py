@@ -104,7 +104,7 @@ def group_to_ip():
     logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
     db_cur = db_conn.cursor()
     # query idb_view view by domain and group
-    sql_query = ("SELECT ip FROM idb_view WHERE groups LIKE '%|{}|%'").format(domain+"\\\\\\\\"+group)
+    sql_query = ("SELECT v_ip FROM idb_view WHERE v_groups LIKE '%|{}|%'").format(domain+"\\\\\\\\"+group)
     db_cur.execute(sql_query)
     # build ip list from results
     ip_list = ""
