@@ -5,7 +5,7 @@
 #
 # FILENAME:    idbf_update_idb_view.py
 # DESCRIPTION: script to update the idb_view table of the idbf database to
-               change lookup retention settings
+#               change lookup retention settings
 #
 # AUTHOR:      Patrick K. Ryon (slashdoom)
 # LICENSE:     3 clause BSD (see LICENSE file)
