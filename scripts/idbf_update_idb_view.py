@@ -66,6 +66,7 @@ try:
   db_conn = mysql.connector.connect(host=db_host,
                                     user=db_root_user,
                                     password=db_root_pass,
+                                    database=db_name,
                                     buffered=True)
 # check mysql connection
 except mysql.connector.Error as err: # mysql connection error
