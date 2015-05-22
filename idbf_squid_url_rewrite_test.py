@@ -30,8 +30,10 @@ logger.addHandler(fh)
 
 try:
   for line in sys.stdin:
-    logger.debug(line)
-    print("OK")
+    if line:
+      logger.debug(line)
+      print("OK")
+      break
 
 except Exception as err:
   # send error to logger
