@@ -14,7 +14,6 @@
 
 
 import logging
-import re
 import sys
 
 PYTHONUNBUFFERED = "true"
@@ -22,12 +21,12 @@ PYTHONUNBUFFERED = "true"
 #setup logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-# setup console logging handler
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-ch_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(message)s')
-ch.setFormatter(ch_format)
-logger.addHandler(ch)
+# setup file logging handler
+fh = logging.FileHandler("/var/log/squid3/rewrite_tmp.log")
+fh.setLevel(logging.DEBUG)
+fh_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)-8s - %(message)s')
+fh.setFormatter(fh_format)
+logger.addHandler(fh)
 
 try:
   for line in sys.stdin:
