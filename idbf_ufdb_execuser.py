@@ -27,12 +27,12 @@ def main(argv):
       if opt == '-h':
          print('idbf_ufdb_execuser.py -g <group> or -u <username>')
          sys.exit()
-      elif opt in ("-i", "--ifile"):
-         inputfile = arg
-      elif opt in ("-o", "--ofile"):
-         outputfile = arg
-   print('Input file is "', inputfile)
-   print('Output file is "', outputfile)
+      elif opt in ("-g", "--group"):
+         group = arg
+      elif opt in ("-u", "--user"):
+         user = arg
+   print('Group is "', group)
+   print('User is "', user)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
