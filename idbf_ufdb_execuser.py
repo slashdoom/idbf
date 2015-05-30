@@ -20,7 +20,7 @@ def main(argv):
   group = ''
   user = ''
   try:
-    opts, args = getopt.getopt(argv,"g:u:",["group=","user="])
+    opts, args = getopt.getopt(argv,"d:g:u:",["domain=","group=","user="])
   except getopt.GetoptError:
     print('idbf_ufdb_execuser.py -d <domain> -g <group> or -u <username>')
     sys.exit(2)
