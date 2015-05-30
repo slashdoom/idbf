@@ -34,9 +34,9 @@ def main(argv):
       group = arg
     elif opt in ("-u", "--user"):
       user = arg
-    print('Domain is: ', domain)
-    print('Group is: ', group)
-    print('User is: ', user)
+  print('Domain is: ', domain)
+  print('Group is: ', group)
+  print('User is: ', user)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
