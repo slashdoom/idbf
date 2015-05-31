@@ -87,7 +87,7 @@ def main(argv):
   if domain and (group or user):
     if user: # user query, print username and exit
       print("%s@%s" % (user,domain))
-    if group:
+    elif group:
       try:
         # connect to mysql server
         db_conn = mysql.connector.connect(host=db_host,
@@ -107,10 +107,10 @@ def main(argv):
         # close out sql connector
         db_cur.close()
         db_conn.close()
-  # invalid argument sequence, exit program
-  else:
-    logger.error("idbf_ufdb_execuser domain and group or user not found")
-    sys.exit(2)
+    # invalid argument sequence, exit program
+    else:
+      logger.error("idbf_ufdb_execuser domain and group or user not found")
+      sys.exit(2)
 
 # call program with arguments
 if __name__ == "__main__":
