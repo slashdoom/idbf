@@ -12,5 +12,5 @@ For Windows DC mappings:
 
 For pfSense URL Table Aliases
  * Flask
- * WSGI/UWSGI
+ * WSGI/uWSGI
  * Webserver (NGINX, Apache2, etc.)
