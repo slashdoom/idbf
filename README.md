@@ -1,7 +1,7 @@
 # iDbF (Identity Database Framework)
 iDbF is a collection of scripts to create an identity (user/ip/group mapping) database for use with pfSense, Squid snd other programs for the sake of achieve "Next Generation" firewall like features.
 
-# Requires:
+# Requirements:
  * Python3
  * MySQL Python Connector
  * MySQL/MariaDB
@@ -12,5 +12,9 @@ For Windows DC mappings:
 
 For pfSense URL Table Aliases
  * Flask
- * WSGI/uWSGI
  * Webserver (NGINX, Apache2, etc.)
+ * WSGI/uWSGI
+
+For URL Filtering
+ * Squid 3.4
+ * ufdbGuard 1.31
