@@ -1,0 +1,44 @@
+[DATABASE]
+db_host = localhost
+db_user = idbf_user
+db_pass = password
+db_name = idbf
+db_root_user = root
+db_root_pass = password
+
+[DOMAIN]
+domain.example.com  = domain
+domain2.example.com = domain2
+
+[LDAP]
+server   = domain.example.com
+port     = 3268
+username = idbf_user@domain.example.com
+password = password
+
+[LOGGING]
+path    = /opt/idbf/log
+# logging levels
+# CRITICAL = 50
+# ERROR    = 40
+# WARNING  = 30
+# INFO     = 20
+# DEBUG    = 10
+# NOTSET   = 0
+main_fh = 30
+main_ch = 20
+lib_fh  = 30
+lib_ch  = 20
+
+[SCRUBBER]
+u2i_DAY    = 1
+u2i_HOUR   = 0
+u2i_MINUTE = 0
+ug_DAY     = 0
+ug_HOUR    = 1
+ug_MINUTE  = 0
+
+[VIEW]
+view_DAY    = 0
+view_HOUR   = 8
+view_MINUTE = 0
