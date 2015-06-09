@@ -3,6 +3,7 @@ db_host = localhost
 db_user = idbf_user
 db_pass = password
 db_name = idbf
+# remove after DB created
 db_root_user = root
 db_root_pass = password
 
@@ -17,6 +18,7 @@ username = idbf_user@domain.example.com
 password = password
 
 [LOGGING]
+path    = /opt/idbf/log
 main_fh = WARNING
 main_ch = INFO
 lib_fh  = WARNING
