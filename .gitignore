@@ -1,4 +1,4 @@
 *.log
-*.txt
 test*
-/etc/*
+etc/*
+tmp/*
