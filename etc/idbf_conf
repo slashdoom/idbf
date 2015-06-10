@@ -17,10 +17,18 @@ username = idbf_user@domain.example.com
 password = password
 
 [LOGGING]
-main_fh = WARNING
-main_ch = INFO
-lib_fh  = WARNING
-lib_ch  = INFO
+path    = /opt/idbf/log
+# logging levels
+# CRITICAL = 50
+# ERROR    = 40
+# WARNING  = 30
+# INFO     = 20
+# DEBUG    = 10
+# NOTSET   = 0
+main_fh = 30
+main_ch = 20
+lib_fh  = 30
+lib_ch  = 20
 
 [SCRUBBER]
 u2i_DAY    = 1
