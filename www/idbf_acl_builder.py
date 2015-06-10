@@ -74,7 +74,7 @@ def user_to_ip():
     logger.debug("idbf_acl_builder MySQL connected to %s" % db_name)
     db_cur = db_conn.cursor()
     # query idb_view view by domain and user
-    sql_query = ("SELECT ip FROM idb_view WHERE v_user=%s AND v_domain=%s")
+    sql_query = ("SELECT v_ip FROM idb_view WHERE v_user=%s AND v_domain=%s")
     db_cur.execute(sql_query, (user,domain,))
     ip_list = ""
     # build ip list from results
