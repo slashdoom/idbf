@@ -112,7 +112,7 @@ try:
                                                                                                   log_username))
           else:
             logger.debug("idbf_ise_byod.py - calling radacct(). [%s, %s, %s]" % (log_domain.upper(), log_username, ip))
-            u2i_db.u2i_user_add(time.strftime(datetime.now()),
+            u2i_db.u2i_user_add(time.strftime("%Y-%m-%d %H:%M:%S"),
                                 adf_user(log_username),
                                 adf_domain(log_domain,domains),
                                 ip,
