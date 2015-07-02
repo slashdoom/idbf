@@ -95,7 +95,7 @@ try:
                                                                                    str(matchObj.group(2)).lower()))
           log_domain = str(matchObj.group(1)).lower()
           log_username = str(matchObj.group(2)).lower()
-          # if domain not found it in username use default
+        # if domain not found in username use default
         else:
           log_domain = config["DEFAULT"]["domain"]
           logger.debug("idbf_ise_byod.py - username without domain found.  Assuming %s\\%s" % (log_domain, log_username))
@@ -111,7 +111,7 @@ try:
                                                                                                   log_domain.upper(),
                                                                                                   log_username))
           else:
-            logger.debug("idbf_ise_byod.py - calling radacct(). [%s, %s, %s]" % (log_domain.upper(), log_username, ip))
+            logger.debug("idbf_ise_byod.py - adding user. %s@%s - %s]" % (log_username, log_domain.upper(), ip))
             u2i_db.u2i_user_add(time.strftime("%Y-%m-%d %H:%M:%S"),
                                 adf_user(log_username),
                                 adf_domain(log_domain,domains),
@@ -124,4 +124,5 @@ try:
 except Exception as err:
   # send error to logger
   logger.error(err)
+  logger.error(line)
   exit(0)
