@@ -1,5 +1,5 @@
 # iDbF (Identity Database Framework)
-iDbF is a collection of scripts to create an identity (user/ip/group mapping) database for use with pfSense, Squid snd other applications for the sake of achieving "Next Generation" firewall like features.
+iDbF is a collection of scripts to create an identity (user/ip/group mapping) database for use with pfSense, Squid and other applications for the sake of achieving "Next Generation" firewall like features.
 
 # Requirements:
  * Python3
