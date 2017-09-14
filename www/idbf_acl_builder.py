@@ -88,7 +88,7 @@ def user_to_ip():
   except:
     return ""
 
-# decoration for user ip list builder
+# decoration for group ip list builder
 @app.route('/group', methods=['GET', 'POST'])
 def group_to_ip():
   group  = request.args.get("group")
